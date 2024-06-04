@@ -1,4 +1,3 @@
-install tk --yes
 import streamlit as st
 from tkinter.tix import COLUMN
 from pyparsing import empty
