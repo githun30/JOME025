@@ -1,4 +1,4 @@
-sudo dnf install tk
+import tk
 import streamlit as st
 from tkinter.tix import COLUMN
 from pyparsing import empty
