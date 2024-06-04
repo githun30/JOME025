@@ -1,5 +1,5 @@
+pip install package_name
 import streamlit as st
-from tkinter.tix import COLUMN
 from pyparsing import empty
 import pandas as pd              # pandas(판다스): 표 형태의 데이터를 다루는 패키지
 import matplotlib as mpl         # matplotlib(맷플롯리브): 시각화를 위한 패키지
