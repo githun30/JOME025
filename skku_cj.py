@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd              # pandas(판다스): 표 형태의 데이터를 다루는 패키지
-import matplotlib as mpl         # matplotlib(맷플롯리브): 시각화를 위한 패키지
 import matplotlib.pyplot as plt
 from datetime import datetime    # datetime(데이터타임): 날짜와 시간 과년 기능 제공
 from matplotlib import font_manager, rc
