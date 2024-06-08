@@ -19,8 +19,8 @@ from konlpy.tag import Kkma
 from konlpy.tag import Okt
 import nltk
 
-font_url = "https://github.com/githun30/JOME025/blob/9d379c17cd4a06d795661e35b3de7331a6bb4d29/NanumGothic.ttf?raw=true"
-font_path = "C:/Users/KMGHO/Downloads/NanumGothic.ttf"  # 로컬 파일 경로
+font_url = "https://github.com/githun30/JOME025/raw/9d379c17cd4a06d795661e35b3de7331a6bb4d29/NanumGothic.ttf"
+font_path = "/tmp/NanumGothic.ttf"
 response = requests.get(font_url)
 with open(font_path, "wb") as f:
     f.write(response.content)
