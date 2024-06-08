@@ -55,7 +55,12 @@ def main():
     
     # 폰트 로드 확인
     loaded_font_name = check_font_loading(font_path)
-    
+
+# main 함수 호출
+if __name__ == "__main__":
+    main()
+
+
 # tqdm의 기본 모드 사용
 tqdm.pandas() 
 
