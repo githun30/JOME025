@@ -45,17 +45,6 @@ def main():
     # 폰트 다운로드 및 로드
     download_font(font_url, font_path)
     font_name = load_custom_font(font_path)
-    
-    # 폰트가 제대로 로드되고 설정되었는지 확인
-    st.write(f"로딩된 폰트: {font_name}")
-
-    tips = sns.load_dataset("tips")
-    fig, ax = plt.subplots()
-    sns.scatterplot(data=tips, x='total_bill', y='tip', hue='day')
-    ax.set_title("한글 테스트")
-    st.pyplot(fig)
-
-    st.dataframe(tips)
 
 if __name__ == "__main__":
     main()
