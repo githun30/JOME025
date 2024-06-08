@@ -10,6 +10,11 @@ import numpy as np               # numpy(넘파이): 수치 해석 기능 제공
 from collections import Counter
 from collections import Counter
 
+font_path = '/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc'  # 예시 경로 (시스템에 따라 다를 수 있음)
+font_name = font_manager.FontProperties(fname=font_path).get_name()
+plt.rc('font', family=font_name)
+
+
 
 st.header("언론중재법 개정안에 대한 공동발의 연결망 분석 및 언론보도 분석")
 st.subheader(' - 컴퓨테이셔널저널리즘(JOME025) 기말 프로젝트👨‍💻')
