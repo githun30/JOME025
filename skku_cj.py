@@ -94,8 +94,8 @@ st.write('### 2️⃣ 공동발의안 연결망 분석')
 
 
 # 엑셀 파일 로드
-members_file = 'd:/JOME/2024-1/컴퓨테이셔널저널리즘/과제/기말/21대 국회의원 명단.xlsx'
-laws_file = 'd:/JOME/2024-1/컴퓨테이셔널저널리즘/과제/기말/21대 국회 발의법률안.xlsx'
+members_file = 'https://github.com/githun30/JOME025/blob/0897f079417d359a05577649ac1125d3f911cd6b/21%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90%20%EB%AA%85%EB%8B%A8.xlsx'
+laws_file = 'https://github.com/githun30/JOME025/blob/0897f079417d359a05577649ac1125d3f911cd6b/21%EB%8C%80%20%EA%B5%AD%ED%9A%8C%20%EB%B0%9C%EC%9D%98%EB%B2%95%EB%A5%A0%EC%95%88.xlsx'
 
 # 국회의원 명단 엑셀 파일 읽기
 members_df = pd.read_excel(members_file)
