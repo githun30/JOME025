@@ -16,7 +16,11 @@ import os
 import matplotlib.font_manager as fm
 from konlpy.tag import Kkma
 from konlpy.tag import Okt
-    
+
+font_path = 'https://github.com/githun30/JOME025/blob/main/NanumGothic.ttf'
+fontprop = fm.FontProperties(fname=font_path)
+plt.rcParams['font.family'] = fontprop.get_name()
+
 # tqdm의 기본 모드 사용
 tqdm.pandas()
 
