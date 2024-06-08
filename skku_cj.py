@@ -28,15 +28,14 @@ def download_font(url, save_path):
         except Exception as e:
             st.error(f"Failed to download font: {e}")
     else:
-        st.write(f"Font already exists at {save_path}")
+        # 폰트가 이미 존재하면 메시지를 출력하지 않음
+        pass
 
 # 폰트를 로드하고 매트플롯립에서 사용할 수 있도록 설정하는 함수
 def load_custom_font(font_path):
     fm.fontManager.addfont(font_path)  # 폰트를 매니저에 추가
     font_name = fm.FontProperties(fname=font_path).get_name()
     plt.rc('font', family=font_name)  # 폰트를 설정
-    st.write(f"Font loaded: {font_name}")
-    return font_name
 
 def main():
     # NanumGothic 폰트 URL 및 로컬 저장 경로 지정
@@ -46,6 +45,12 @@ def main():
     # 폰트 다운로드 및 로드
     download_font(font_url, font_path)
     font_name = load_custom_font(font_path)
+
+
+font_url = 'https://github.com/githun30/JOME025/raw/main/NanumGothic.ttf'  # URL에서 직접 raw 파일을 가져와야 함
+font_path = 'NanumGothic.ttf'
+download_font(font_url, font_path)
+
     
 # tqdm의 기본 모드 사용
 tqdm.pandas() 
