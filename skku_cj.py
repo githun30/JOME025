@@ -88,10 +88,9 @@ st.write("")
 st.write('### 2️⃣ 공동발의안 연결망 분석')
 
 
-# 엑셀 파일 로드
-url2 = 'https://github.com/githun30/JOME025/blob/0897f079417d359a05577649ac1125d3f911cd6b/21%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90%20%EB%AA%85%EB%8B%A8.xlsx'
-url3 = 'https://github.com/githun30/JOME025/blob/0897f079417d359a05577649ac1125d3f911cd6b/21%EB%8C%80%20%EA%B5%AD%ED%9A%8C%20%EB%B0%9C%EC%9D%98%EB%B2%95%EB%A5%A0%EC%95%88.xlsx'
-
+# Raw URL로 업데이트
+url2 = 'https://raw.githubusercontent.com/githun30/JOME025/0897f079417d359a05577649ac1125d3f911cd6b/21%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90%20%EB%AA%85%EB%8B%A8.xlsx'
+url3 = 'https://raw.githubusercontent.com/githun30/JOME025/0897f079417d359a05577649ac1125d3f911cd6b/21%EB%8C%80%20%EA%B5%AD%ED%9A%8C%20%EB%B0%9C%EC%9D%98%EB%B2%95%EB%A5%A0%EC%95%88.xlsx'
 
 response = requests.get(url2)
 member_file_data = BytesIO(response.content)
@@ -99,15 +98,16 @@ member_file_data = BytesIO(response.content)
 response = requests.get(url3)
 law_file_data = BytesIO(response.content)
 
-members_df = pd.read_excel(members_file_data)
-members_df.head()
+members_df = pd.read_excel(member_file_data)
+print(members_df.head())
 
-laws_df = pd.read_excel(laws_file_data)
-laws_df.head()
+laws_df = pd.read_excel(law_file_data)
+print(laws_df.head())
 
 # 특정 법률안 필터링 ("언론중재 및 피해구제 등에 관한 법률 일부개정법률안")
 law_name = "언론중재 및 피해구제 등에 관한 법률 일부개정법률안"
 law_df = laws_df[laws_df['법률안명'].str.contains(law_name)]
+print(law_df.head())
 
 # 정당별 색상 딕셔너리 생성
 party_colors = {
