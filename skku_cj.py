@@ -311,20 +311,22 @@ df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.
 
 df['person'] = df['person'].apply(lambda x: [name.strip() for name in x.split(',') if len(name.strip()) > 1] if isinstance(x, str) else [])
 
- # 모든 이름을 한 리스트에 모아 언급 횟수를 계산
-all_persons = [name for sublist in df['person'] for name in sublist]
-person_counts = pd.Series(all_persons).value_counts()
+# 'person' 열을 콤마로 분할하고 빈 값 및 NaN 제거
+df['person'] = df['person'].apply(lambda x: [name.strip() for name in x.split(',') if len(name.strip()) > 1] if isinstance(x, str) else [])
 
-# 상위 20명의 이름과 언급 횟수 추출
-top_20_persons = person_counts.head(20)
+# 모든 이름을 한 리스트에 모아 언급 횟수를 계산
+all_persons = [name for sublist in df['person'] for name in sublist]
+top_person_counts = Counter(all_persons)
+
+# 상위 30명의 이름과 언급 횟수 추출
+top_30_persons = top_person_counts.most_common(30)
 
 # 결과를 데이터프레임으로 변환하여 표시
-top_20_df = top_20_persons.reset_index()
-top_20_df.columns = ['이름', '언급 횟수']
-
+top_30_df = pd.DataFrame(top_30_persons, columns=['이름', '언급 횟수'])
+top_30_df.index = list(range(1, len(top_30_df) + 1))
 # 데이터프레임을 Streamlit에 표시
-st.write("상위 20명의 이름과 언급 횟수:")
-st.dataframe(top_20_df)
+st.write("상위 30명의 이름과 언급 횟수:")
+st.dataframe(top_30_df)
 
 top_token = []
 
