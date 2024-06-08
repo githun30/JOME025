@@ -1,14 +1,43 @@
-import matplotlib.pyplot as plt
-from matplotlib import font_manager
+# -*- coding:utf-8 -*-
+import streamlit as st 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+import numpy as np 
 
-# 폰트 파일의 정확한 로컬 경로 지정
-font_path = 'C:/Users/KMGHO/Downloads/NanumGothic.ttf'
-font_prop = font_manager.FontProperties(fname=font_path)
+# 한글폰트 적용
+# 폰트 적용
+import os
+import matplotlib.font_manager as fm  # 폰트 관련 용도 as fm
 
-# matplotlib의 기본 폰트 설정
-plt.rcParams['font.family'] = font_prop.get_name()
+def unique(list):
+    x = np.array(list)
+    return np.unique(x)
 
-# 테스트 그래프 생성
-plt.figure()
-plt.title('테스트 그래프', fontproperties=font_prop)
-plt.plot([1, 2, 3], [4, 5, 6])
+@st.cache_data
+def fontRegistered():
+    font_dirs = [os.getcwd() + '/customFonts']
+    font_files = fm.findSystemFonts(fontpaths=font_dirs)
+
+    for font_file in font_files:
+        fm.fontManager.addfont(font_file)
+    fm._load_fontmanager(try_read_cache=False)
+    
+
+def main():
+    
+    fontRegistered()
+    fontNames = [f.name for f in fm.fontManager.ttflist]
+    fontname = st.selectbox("폰트 선택", unique(fontNames))
+
+    plt.rc('font', family=fontname)
+    tips = sns.load_dataset("tips")
+    fig, ax = plt.subplots()
+    sns.scatterplot(data=tips, x = 'total_bill', y = 'tip', hue='day')
+    ax.set_title("한글 테스트")
+    st.pyplot(fig)
+    
+    st.dataframe(tips)
+    
+
+if __name__ == "__main__":
+    main()
