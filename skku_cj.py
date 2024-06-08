@@ -11,8 +11,8 @@ import numpy as np               # numpy(넘파이): 수치 해석 기능 제공
 from collections import Counter  
 from stqdm import stqdm
 from tqdm import tqdm
-import pandas as pd
-from tqdm.notebook import tqdm
+
+# tqdm의 기본 모드 사용
 tqdm.pandas()
 
 st.header("언론중재법 개정안에 대한 공동발의 연결망 분석 및 언론보도 분석")
