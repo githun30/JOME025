@@ -172,10 +172,6 @@ member_party = dict(zip(members_df['의원명'], members_df['정당']))
 proposer_column = '대표발의자'
 cosponsors_column = '공동발의자'
 
-party_color_table = pd.DataFrame(list(party_colors.items()), columns=['정당', '색상'])
-st.write("### 정당별 색상")
-st.table(party_color_table)
-
 # 네트워크 그래프 생성
 G = nx.Graph()
 
@@ -226,7 +222,28 @@ nx.draw_networkx_edges(G, pos)
 nx.draw_networkx_labels(G, pos, font_size=12, font_family='NanumGothic', font_weight='bold')  # 폰트 크기 확대
 
 plt.title('대표발의자 및 공동발의자의 네트워크', fontsize=15)
+
+# 정당별 색상 테이블 추가
+ax = plt.gca()  # 현재 그래프의 축을 가져옴
+
+# 정당별 색상 설명 테이블을 그리기 위해 텍스트 위치 설정
+y_offset = 1.1  # 그래프 상단 위의 여백 설정
+x_pos = 1.05  # 그래프 오른쪽 여백 설정
+
+# 정당별 색상 정보를 추가
+for i, (party, color) in enumerate(party_colors.items()):
+    plt.text(x_pos, y_offset - i * 0.05, f'{party}: {color}', fontsize=12, color=color, transform=ax.transAxes)
+
 st.pyplot(plt)
+
+# 정당별 색상 테이블 추가
+party_color_table = pd.DataFrame(list(party_colors.items()), columns=['정당', '색상'])
+st.write("### 정당별 색상")
+st.table(party_color_table)
+
+st.pyplot(plt)
+
+
 
 # 네트워크 중심성 계산
 degree_centrality = nx.degree_centrality(G)
