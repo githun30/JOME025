@@ -1,22 +1,22 @@
 # -*- coding:utf-8 -*-
-import streamlit as st
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
+import streamlit as st 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+import numpy as np 
 import os
-import matplotlib.font_manager as fm
+import matplotlib.font_manager as fm  # 폰트 관련 용도
 
 def unique(list):
     x = np.array(list)
     return np.unique(x)
 
-@st.cache(allow_output_mutation=True)
+@st.cache(allow_output_mutation=True, ignore_hash=True)  # 캐시 설정 변경
 def fontRegistered():
     font_dirs = [os.getcwd() + '/customFonts']
-    font_files = fm.findSystemFonts(fontpaths=font_dirs)
+    font_files = fm.findSystemFonts(fontpaths=font_abs)
     for font_file in font_files:
         fm.fontManager.addfont(font_file)
-    fm._rebuild()
+    fm._rebuild()  # 폰트 매니저 재구성
 
 def main():
     fontRegistered()
