@@ -362,10 +362,6 @@ with col2:
     
 st.write("")
 
-font_url = 'https://github.com/githun30/JOME025/raw/main/NanumGothic.ttf'  # URL에서 직접 raw 파일을 가져와야 함
-font_path = 'NanumGothic.ttf'
-download_font(font_url, font_path)
-load_custom_font(font_path)
 
 st.write('##### ■ 5대 신문사 보도 워드클라우드')
 # 워드클라우드 생성
@@ -373,14 +369,17 @@ st.write('##### ■ 5대 신문사 보도 워드클라우드')
 col1, col2 = st.columns(2)
     
 with col1:
+    # 한글 폰트를 사용하여 워드클라우드 생성
     wordcloud = WordCloud(
-    width=600,
-    height=300,
-    background_color='white',
-    colormap='viridis',
-    random_state=42,
-).generate(text)
+        font_path=font_path,  # 한글 폰트 경로 지정
+        width=600,
+        height=300,
+        background_color='white',
+        colormap='viridis',
+        random_state=42,
+    ).generate(text)
     
+    # 워드클라우드를 numpy 배열로 변환하여 시각화
     plt.figure(figsize=(10, 5))
     plt.imshow(wordcloud.to_array(), interpolation='bilinear')
     plt.axis("off")
