@@ -24,7 +24,7 @@ try:
     
     # 폰트 이름이 올바르게 설정되었는지 확인
     if font_name:
-        rc('font', family=font_name)
+        rc('font', family=font_name)  # 'font'가 아닌 'font_name' 사용
         st.write(f"Font '{font_name}' has been set for the plot.")
     else:
         st.error("Failed to load the font name from the font file.")
