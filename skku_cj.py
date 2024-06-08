@@ -313,14 +313,14 @@ df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
 
 person_list = df['person'].dropna().str.split(',').explode()
-person_list_modified = person_list.apply(lambda x: x[:-1] if len(x) > 1 else x)
-
+person_list_modified = person_list.apply(lambda x: str(x)[:-1] if len(str(x)) > 1 else str(x))
 person_counter = Counter(person_list_modified)
 top_30_persons = person_counter.most_common(30)
-
 top_30_df = pd.DataFrame(top_30_persons, columns=['이름', '빈도'])
 st.write("상위 30명 인물 목록")
 st.dataframe(top_30_df)
+
+    # 상위 30명 시각화
 
 top_token = []
 
