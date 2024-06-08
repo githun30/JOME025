@@ -312,14 +312,16 @@ def replace_synonyms(tokens, synonyms):
 df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
 
-top_person = []
-top_30_person = Counter(top_person)
-top_30_person.most_common(30)
-key_person_df = pd.DataFrame(top_30_person.most_common(30))
-key_person_df.columns = ['person', 'count']
-key_person_df.index = list(range(1, len(key_df)+1))
-key_person_df
 
+top_person = [person for sublist in df['person'] for person in sublist]
+top_30_person = Counter(top_person)
+top_30_person_list = top_30_person.most_common(30)
+
+key_person_df = pd.DataFrame(top_30_person_list, columns=['person', 'count'])
+key_person_df.index = list(range(1, len(key_person_df)+1))
+
+st.title("언론보도에 등장한 상위 30명")
+st.dataframe(key_person_df)
 
 top_token = []
 
