@@ -6,3 +6,4 @@ regex
 wordcloud
 konlpy
 openpyxl
+trange
