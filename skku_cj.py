@@ -89,16 +89,18 @@ st.write('### 2️⃣ 공동발의안 연결망 분석')
 
 
 # 엑셀 파일 로드
-members_file = 'https://github.com/githun30/JOME025/blob/0897f079417d359a05577649ac1125d3f911cd6b/21%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90%20%EB%AA%85%EB%8B%A8.xlsx'
-laws_file = 'https://github.com/githun30/JOME025/blob/0897f079417d359a05577649ac1125d3f911cd6b/21%EB%8C%80%20%EA%B5%AD%ED%9A%8C%20%EB%B0%9C%EC%9D%98%EB%B2%95%EB%A5%A0%EC%95%88.xlsx'
+url2 = 'https://github.com/githun30/JOME025/blob/0897f079417d359a05577649ac1125d3f911cd6b/21%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90%20%EB%AA%85%EB%8B%A8.xlsx'
+url3 = 'https://github.com/githun30/JOME025/blob/0897f079417d359a05577649ac1125d3f911cd6b/21%EB%8C%80%20%EA%B5%AD%ED%9A%8C%20%EB%B0%9C%EC%9D%98%EB%B2%95%EB%A5%A0%EC%95%88.xlsx'
 
-# 국회의원 명단 엑셀 파일 읽기
-members_df = pd.read_excel(members_file)
-members_df.head()
 
-# 법률안 엑셀 파일 읽기
-laws_df = pd.read_excel(laws_file)
-laws_df.head()
+response = requests.get(url2)
+member_file_data = BytesIO(response.content)
+members_df = pd.read_excel(member_file_data, engine='openpyxl')
+
+response = requests.get(url3)
+law_file_data = BytesIO(response.content)
+laws_df = pd.read_excel(law_file_data, engine='openpyxl')
+
 
 # 특정 법률안 필터링 ("언론중재 및 피해구제 등에 관한 법률 일부개정법률안")
 law_name = "언론중재 및 피해구제 등에 관한 법률 일부개정법률안"
