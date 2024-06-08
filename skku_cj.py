@@ -318,7 +318,7 @@ person_counts = pd.Series(all_persons).value_counts()
 top_20_persons = person_counts.head(20)
 st.write("상위 @0명의 이름과 언급 횟수:")
 st.dataframe(top_20_persons)
-st.bar_chart(top_10_persons)
+st.bar_chart(top_20_persons)
 
 top_token = []
 
