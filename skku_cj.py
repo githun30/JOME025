@@ -274,10 +274,6 @@ df['date'] = pd.to_datetime(df['date'], format='%Y%m%d')
 # 일자 기준 처리
 date_counts = df['date'].value_counts().sort_index()
 
-font_path = 'https://github.com/githun30/JOME025/blob/c58c570cc97f2025fc68dcc0cbc45e2a62147146/NanumGothic.ttf'  # 폰트 파일 경로
-font_name = font_manager.FontProperties(fname=font_path).get_name()
-rc('font', family=font_name)
-
 fig, ax = plt.subplots(figsize=(12, 6))
 ax.plot(date_counts.index, date_counts.values, marker='o', linestyle='-', color='b')
 ax.set_title('일자별 기사 수 추이')
