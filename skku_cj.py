@@ -24,6 +24,7 @@ def download_font(url, save_path):
     if not os.path.exists(save_path):
         try:
             urllib.request.urlretrieve(url, save_path)
+            st.write(f"Font downloaded and saved to {save_path}")
         except Exception as e:
             st.error(f"Failed to download font: {e}")
 
@@ -36,7 +37,7 @@ def load_custom_font(font_path):
 
 def main():
     # NanumGothic 폰트 URL 및 로컬 저장 경로 지정
-    font_url = 'https://github.com/githun30/JOME025/raw/main/NanumGothic.ttf'  # URL에서 raw 파일을 가져와야 함
+    font_url = 'https://github.com/githun30/JOME025/raw/main/NanumGothic.ttf'  # URL에서 직접 raw 파일을 가져와야 함
     font_path = 'NanumGothic.ttf'
     
     # 폰트 다운로드 및 로드
