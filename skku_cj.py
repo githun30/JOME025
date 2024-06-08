@@ -1,22 +1,14 @@
 import streamlit as st
-from pyparsing import empty
 import pandas as pd              # pandas(판다스): 표 형태의 데이터를 다루는 패키지
-import matplotlib as mpl         # matplotlib(맷플롯리브): 시각화를 위한 패키지
-import matplotlib.pyplot as plt
+import requests
+from io import BytesIO
+import streamlit as st
+import streamlit as st
+import pandas as pd
 from datetime import datetime    # datetime(데이터타임): 날짜와 시간 과년 기능 제공
-from matplotlib import font_manager, rc
-import networkx as nx
 import numpy as np               # numpy(넘파이): 수치 해석 기능 제공
-import re, regex                 # 정규표현식 사용
-from tqdm import trange          # 반복문 작업상황 확인
-from tqdm import tqdm
-tqdm.pandas()
-from wordcloud import WordCloud  # 워드 클라우드 기능 제공
 from collections import Counter
 from collections import Counter
-import konlpy
-from konlpy.tag import Okt
-
 
 
 st.header("언론중재법 개정안에 대한 공동발의 연결망 분석 및 언론보도 분석")
@@ -43,7 +35,18 @@ st.write('''###### - 추진배경
 
 st.write('''###### 👉 언론으로 인한 다툼과 피해를 최소화시키며, 언론의 자유와 책임의 조화를 위한 법률.''') 
 
-df2 = pd.read_excel("D:/JOME/2024-1/컴퓨테이셔널저널리즘/과제/기말/언론조정/2023년 조정중재처리현황(1981년~2023년).xlsx")
+# GitHub의 원본 URL에서 원시 파일 URL로 변경
+url = "https://github.com/githun30/JOME025/raw/d39d96b230859f9e45b37c77447de9da071b3b00/2023%EB%85%84%20%EC%A1%B0%EC%A0%95%EC%A4%91%EC%9E%AC%EC%B2%98%EB%A6%AC%ED%98%84%ED%99%A9(1981%EB%85%84~2023%EB%85%84).xlsx"
+
+# URL에서 파일을 다운로드
+response = requests.get(url)
+
+# 파일이 올바르게 다운로드되었는지 확인
+if response.status_code == 200:
+    # 다운로드한 파일을 BytesIO로 변환하여 pandas에서 읽기
+    file_data = BytesIO(response.content)
+    df2 = pd.read_excel(file_data)
+    
 
 # Use iloc to select B8:C50 (row 7 to 49 and column 1 to 2)
 df2_selected = df2.iloc[6:49, 1:3]
