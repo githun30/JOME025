@@ -4,7 +4,7 @@ import networkx as nx
 import requests
 from io import BytesIO
 import matplotlib.pyplot as plt
-from matplotlib import font_manager
+from matplotlib import font_manager, rc
 import pandas as pd
 from datetime import datetime    # datetime(데이터타임): 날짜와 시간 과년 기능 제공
 import numpy as np               # numpy(넘파이): 수치 해석 기능 제공
