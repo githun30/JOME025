@@ -43,9 +43,7 @@ def main():
     download_font(font_url, font_path)
     font_name = load_custom_font(font_path)
     
-    # 폰트 로드 확인
-    loaded_font_name = check_font_loading(font_path)
-    
+
 # main 함수 호출
 if __name__ == "__main__":
     main()
