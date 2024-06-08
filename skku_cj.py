@@ -327,7 +327,7 @@ with col1:
     background_color='white',
     colormap='viridis',
     random_state=42,
-    font_path='/usr/share/fonts/truetype/nanum/NanumGothic.ttf'  # 한글 폰트 경로
+    font_path='https://github.com/githun30/JOME025/blob/9d379c17cd4a06d795661e35b3de7331a6bb4d29/NanumGothic.ttf'  # 한글 폰트 경로
     ).generate(text)
     
     # 워드클라우드 시각화
