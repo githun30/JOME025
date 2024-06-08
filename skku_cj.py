@@ -40,13 +40,6 @@ url = "https://github.com/githun30/JOME025/raw/d39d96b230859f9e45b37c77447de9da0
 # URL에서 파일을 다운로드
 response = requests.get(url)
 
-# 파일이 올바르게 다운로드되었는지 확인
-if response.status_code == 200:
-    # 다운로드한 파일을 BytesIO로 변환하여 pandas에서 읽기
-    file_data = BytesIO(response.content)
-    df2 = pd.read_excel(file_data)
-    
-
 # Use iloc to select B8:C50 (row 7 to 49 and column 1 to 2)
 df2_selected = df2.iloc[6:49, 1:3]
 
