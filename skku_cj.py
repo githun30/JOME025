@@ -312,15 +312,20 @@ def replace_synonyms(tokens, synonyms):
 df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
 
-# '인물' 열에서 각 인물 추출, dropna로 빈값 제거
+# '인물' 열에서 각 인물 추출 및 처리
 person_list = df['person'].dropna().str.split(',').explode()
+    
+# 데이터 유형 확인 및 문자열로 변환
+person_list = person_list.dropna().astype(str)
+person_list_modified = [x[:-1] if len(x) > 1 else x for x in person_list]
 
-person_list_modified = person_list.apply(lambda x: x[:-1] if len(x) > 1 else x)
 person_counter = Counter(person_list_modified)
 top_30_persons = person_counter.most_common(30)
 top_30_df = pd.DataFrame(top_30_persons, columns=['이름', '빈도'])
+
 st.write("상위 30명 인물 목록")
 st.dataframe(top_30_df)
+
 
 top_token = []
 
