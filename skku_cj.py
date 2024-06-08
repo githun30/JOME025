@@ -233,14 +233,6 @@ x_pos = 1.05  # 그래프 오른쪽 여백 설정
 # 정당별 색상 정보를 추가
 for i, (party, color) in enumerate(party_colors.items()):
     plt.text(x_pos, y_offset - i * 0.05, f'{party}: {color}', fontsize=12, color=color, transform=ax.transAxes)
-
-st.pyplot(plt)
-
-# 정당별 색상 테이블 추가
-party_color_table = pd.DataFrame(list(party_colors.items()), columns=['정당', '색상'])
-st.write("### 정당별 색상")
-st.table(party_color_table)
-
 st.pyplot(plt)
 
 
