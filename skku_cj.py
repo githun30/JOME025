@@ -16,8 +16,6 @@ import os
 import matplotlib.font_manager as fm
 from konlpy.tag import Kkma
 from konlpy.tag import Okt
-import nltk
-
     
 # tqdm의 기본 모드 사용
 tqdm.pandas()
