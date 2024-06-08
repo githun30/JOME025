@@ -381,9 +381,8 @@ with col1:
     random_state=42,
 ).generate(text)
     
-    # 워드클라우드 시각화
     plt.figure(figsize=(10, 5))
-    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.imshow(wordcloud.to_array(), interpolation='bilinear')
     plt.axis("off")
     st.pyplot(plt)
     
