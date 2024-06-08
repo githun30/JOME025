@@ -102,9 +102,6 @@ try:
     response = requests.get(url3)
     response.raise_for_status()  # HTTP 에러가 발생하면 예외를 발생시킴
     law_file_data = BytesIO(response.content)
-    
-    try:
-        laws_df = pd.read_excel(law_file_data, engine='openpyxl')
 
 
 # 특정 법률안 필터링 ("언론중재 및 피해구제 등에 관한 법률 일부개정법률안")
