@@ -14,6 +14,11 @@ from tqdm import tqdm
 from wordcloud import WordCloud
 import os
 import matplotlib.font_manager as fm
+from bs4 import BeautifulSoup
+from konlpy.tag import Kkma
+from konlpy.tag import Okt
+import nltk
+
 font_path = 'https://github.com/githun30/JOME025/blob/9d379c17cd4a06d795661e35b3de7331a6bb4d29/NanumGothic.ttf'
 # tqdm의 기본 모드 사용
 tqdm.pandas()
