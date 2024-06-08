@@ -205,7 +205,7 @@ for index, row in law_df.iterrows():
         G.add_edge(proposer, cosponsor)
 
 # 등장 횟수에 따른 노드 크기 정의
-node_sizes = [node_counts[node] * 300 for node in G.nodes]
+node_sizes = [node_counts[node] * 350 for node in G.nodes]
 
 # 대표발의자와 공동발의자를 다른 모양으로 구분
 pos = nx.spring_layout(G, seed=42)  # 일관된 레이아웃을 위해 시드 값 설정
