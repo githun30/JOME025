@@ -6,3 +6,4 @@ prophet
 networkx
 regex
 wordcloud
+konlpy
