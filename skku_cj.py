@@ -39,6 +39,8 @@ url = "https://github.com/githun30/JOME025/raw/d39d96b230859f9e45b37c77447de9da0
 
 # URL에서 파일을 다운로드
 response = requests.get(url)
+file_data = BytesIO(response.content)
+df2 = pd.read_excel(file_data, engine='openpyxl')
 
 # Use iloc to select B8:C50 (row 7 to 49 and column 1 to 2)
 df2_selected = df2.iloc[6:49, 1:3]
