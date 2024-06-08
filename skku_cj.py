@@ -13,7 +13,7 @@ from stqdm import stqdm
 from tqdm import tqdm
 from wordcloud import WordCloud
 
-
+font_path = 'https://github.com/githun30/JOME025/blob/9d379c17cd4a06d795661e35b3de7331a6bb4d29/NanumGothic.ttf'
 # tqdm의 기본 모드 사용
 tqdm.pandas()
 
