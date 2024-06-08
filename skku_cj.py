@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd              # pandas(판다스): 표 형태의 데이터를 다루는 패키지
+import networkx as nx
 import requests
 from io import BytesIO
 import matplotlib.pyplot as plt
