@@ -260,7 +260,7 @@ df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.
 top_token = []
 i = 0
 
-for i in trange(0, len(df)):
+for i in stqdm(0, len(df)):
     try:
         tokenloc = df['token'].loc[i]
         top_token += tokenloc
