@@ -314,11 +314,21 @@ df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
 
 df['person'] = df['person'].apply(lambda x: [name.strip() for name in x.split(',') if len(name.strip()) > 1] if isinstance(x, str) else [])
+
+# 모든 이름을 한 리스트에 모아 언급 횟수를 계산
 all_persons = [name for sublist in df['person'] for name in sublist if len(name) > 1]
 person_counts = pd.Series(all_persons).value_counts()
+
+# 상위 20명의 이름과 언급 횟수 추출
 top_20_persons = person_counts.head(20)
+
+# 결과를 데이터프레임으로 변환하여 표시
+top_20_df = top_20_persons.reset_index()
+top_20_df.columns = ['이름', '언급 횟수']
+
+# 데이터프레임을 Streamlit에 표시
 st.write("상위 20명의 이름과 언급 횟수:")
-st.dataframe(top_20_persons)
+st.dataframe(top_20_df)
 
 top_token = []
 
