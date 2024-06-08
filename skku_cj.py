@@ -319,8 +319,8 @@ df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.
 
 df['person'] = df['person'].apply(lambda x: [name.strip() for name in x.split(',') if len(name.strip()) > 1] if isinstance(x, str) else [])
 
-# 모든 이름을 한 리스트에 모아 언급 횟수를 계산
-all_persons = [name for sublist in df['person'] for name in sublist if len(name) > 1]
+ # 모든 이름을 한 리스트에 모아 언급 횟수를 계산
+all_persons = [name for sublist in df['person'] for name in sublist]
 person_counts = pd.Series(all_persons).value_counts()
 
 # 상위 20명의 이름과 언급 횟수 추출
