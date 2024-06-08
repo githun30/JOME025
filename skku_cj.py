@@ -13,7 +13,7 @@ from stqdm import stqdm
 
 try:
     # 폰트 다운로드 및 설정
-    font_url = 'https://github.com/naver/nanumfont/blob/master/NanumGothic.ttf?raw=true'
+    font_url = 'https://github.com/githun30/JOME025/blob/a4652b13e3bcedf413c03cb101de00d1334a043e/NanumGothic.ttf?raw=true'
     response = requests.get(font_url)
     font_path = '/tmp/NanumGothic.ttf'
     with open(font_path, 'wb') as f:
