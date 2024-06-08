@@ -99,6 +99,11 @@ member_file_data = BytesIO(response.content)
 response = requests.get(url3)
 law_file_data = BytesIO(response.content)
 
+members_df = pd.read_excel(members_file_data)
+members_df.head()
+
+laws_df = pd.read_excel(laws_file_data)
+laws_df.head()
 
 # 특정 법률안 필터링 ("언론중재 및 피해구제 등에 관한 법률 일부개정법률안")
 law_name = "언론중재 및 피해구제 등에 관한 법률 일부개정법률안"
