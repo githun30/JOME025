@@ -205,7 +205,7 @@ for index, row in law_df.iterrows():
         G.add_edge(proposer, cosponsor)
 
 # 등장 횟수에 따른 노드 크기 정의
-node_sizes = [node_counts[node] * 350 for node in G.nodes]
+node_sizes = [node_counts[node] * 5000 for node in G.nodes]
 
 # 대표발의자와 공동발의자를 다른 모양으로 구분
 pos = nx.spring_layout(G, seed=42)  # 일관된 레이아웃을 위해 시드 값 설정
@@ -214,7 +214,7 @@ node_shapes = set((aShape[1]["shape"] for aShape in G.nodes(data=True)))
 plt.figure(figsize=(20, 14))  # 그림 크기 확대
 for shape in node_shapes:
     shaped_nodes = [sNode[0] for sNode in G.nodes(data=True) if sNode[1]["shape"] == shape]
-    shaped_sizes = [node_counts[node] * 300 for node in shaped_nodes]
+    shaped_sizes = [node_counts[node] * 350 for node in shaped_nodes]
     shaped_colors = np.array([party_colors[G.nodes[node]["party"]] for node in shaped_nodes])
     nx.draw_networkx_nodes(G, pos,
                            node_shape=shape,
