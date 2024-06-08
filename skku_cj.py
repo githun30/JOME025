@@ -2,8 +2,7 @@ import streamlit as st
 import pandas as pd              # pandas(판다스): 표 형태의 데이터를 다루는 패키지
 import requests
 from io import BytesIO
-import streamlit as st
-import streamlit as st
+import matplotlib.pyplot as plt
 import pandas as pd
 from datetime import datetime    # datetime(데이터타임): 날짜와 시간 과년 기능 제공
 import numpy as np               # numpy(넘파이): 수치 해석 기능 제공
