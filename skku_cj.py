@@ -28,7 +28,8 @@ def download_font(url, save_path):
         except Exception as e:
             st.error(f"Failed to download font: {e}")
     else:
-        st.write(f"Font already exists at {save_path}")
+        # 폰트가 이미 존재하면 메시지를 출력하지 않음
+        pass
 
 # 폰트를 로드하고 매트플롯립에서 사용할 수 있도록 설정하는 함수
 def load_custom_font(font_path):
@@ -51,7 +52,7 @@ font_path = 'NanumGothic.ttf'
 download_font(font_url, font_path)
 
 # tqdm의 기본 모드 사용
-tqdm.pandas()
+tqdm.pandas() 
 
 st.header("언론중재법 개정안에 대한 공동발의 연결망 분석 및 언론보도 분석")
 st.subheader(' - 컴퓨테이셔널저널리즘(JOME025) 기말 프로젝트👨‍💻')
