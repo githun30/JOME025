@@ -35,7 +35,6 @@ def load_custom_font(font_path):
     fm.fontManager.addfont(font_path)  # 폰트를 매니저에 추가
     font_name = fm.FontProperties(fname=font_path).get_name()
     plt.rc('font', family=font_name)  # 폰트를 설정
-    return font_name
 
 def main():
     # NanumGothic 폰트 URL 및 로컬 저장 경로 지정
