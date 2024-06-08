@@ -312,7 +312,7 @@ def replace_synonyms(tokens, synonyms):
 df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
 
-top_token = []
+top_person = []
 top_30_person = Counter(top_person)
 top_30_person.most_common(30)
 key_person_df = pd.DataFrame(top_30_person.most_common(30))
