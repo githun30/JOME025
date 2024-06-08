@@ -294,9 +294,10 @@ data = BytesIO(response.content)
 # pandas로 Excel 파일 읽기
 df = pd.read_excel(data)
 
-df = df[['일자', '언론사', '키워드']]
+df = df[['일자', '인물', '키워드']]
 
-df.columns = ['date', 'press', 'token']
+df.columns = ['date', 'person', 'token']
+df['person'] = df['person'].str.split(",").tolist()
 df['token'] = df['token'].str.split(",").tolist()
 
 stopwords = set(['언론', '언론중재법', '중재', '언론중재', '중재법','이날', '개정안'])
@@ -310,6 +311,14 @@ def replace_synonyms(tokens, synonyms):
 # 동의어 및 불용어 처리
 df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
+df['person'] = df['person'].dropna().apply(lambda x: x.split(','))
+
+all_persons = [name for sublist in df['person'].dropna() for name in sublist if len(name) > 1]
+person_counts = pd.Series(all_persons).value_counts()
+top_20_persons = person_counts.head(20)
+st.write("상위 20명의 이름과 언급 횟수:")
+st.dataframe(top_20_persons)
+st.bar_chart(top_20_persons)
 
 
 top_token = []
