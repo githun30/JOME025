@@ -1,9 +1,8 @@
 pandas
 plotly
 streamlit
-pandas-datareader
-prophet
 networkx
 regex
 wordcloud
 konlpy
+openpyxl
