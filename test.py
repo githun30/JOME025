@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 # 폰트 파일의 정확한 경로 지정
-font_path = '/full/path/to/NanumGothic.ttf'
+font_path = 'https://github.com/githun30/JOME025/blob/main/NanumGothic.ttf'
 
 # FontProperties 인스턴스 생성
 font_prop = font_manager.FontProperties(fname=font_path)
