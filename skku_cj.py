@@ -11,8 +11,6 @@ import numpy as np               # numpy(넘파이): 수치 해석 기능 제공
 from collections import Counter  
 from stqdm import stqdm
 
-import platformfrom matplotlib import font_manager, rcplt.rcParams['axes.unicode_minus'] = Falseif platform.system() == 'Linux':    rc('font', family='NanumGothic')
-
 st.header("언론중재법 개정안에 대한 공동발의 연결망 분석 및 언론보도 분석")
 st.subheader(' - 컴퓨테이셔널저널리즘(JOME025) 기말 프로젝트👨‍💻')
 
