@@ -16,6 +16,9 @@ import os
 import matplotlib.font_manager as fm
 from konlpy.tag import Kkma
 from konlpy.tag import Okt
+import seaborn as sns 
+import urllib.request
+
 def unique(list):
     x = np.array(list)
     return np.unique(x)
