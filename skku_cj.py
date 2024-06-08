@@ -312,24 +312,21 @@ def replace_synonyms(tokens, synonyms):
 df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
 
-# '인물' 열에서 각 인물 추출
+# '인물' 열에서 각 인물 추출, dropna로 빈값 제거
 person_list = df['person'].dropna().str.split(',').explode()
 
-# 각 인물 이름에서 한 글자를 제외
-person_list_modified = person_list.apply(lambda x: x[:-1] if len(x) > 1 else x)
-
+# 각 인물 이름을 문자열로 강제 변환한 후, 한 글자를 제외
+person_list_modified = person_list.astype(str).apply(lambda x: x[:-1] if len(x) > 1 else x)
 # 인물 빈도 계산
 person_counter = Counter(person_list_modified)
-
 # 상위 30명 추출
 top_30_persons = person_counter.most_common(30)
-
 # 데이터프레임으로 변환
 top_30_df = pd.DataFrame(top_30_persons, columns=['이름', '빈도'])
+# 결과 출력
+st.write("상위 30명 인물 목록")
+st.dataframe(top_30_df)
 
-import ace_tools as tools; tools.display_dataframe_to_user(name="Top 30 인물", dataframe=top_30_df)
-
-top_30_df
 top_token = []
 
 # stqdm 사용하여 진행 상황 표시
