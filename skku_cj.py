@@ -24,7 +24,7 @@ def download_font(url, save_path):
     if not os.path.exists(save_path):
         try:
             urllib.request.urlretrieve(url, save_path)
-
+        except Exception as e:
 # 폰트를 로드하고 매트플롯립에서 사용할 수 있도록 설정하는 함수
 def load_custom_font(font_path):
     fm.fontManager.addfont(font_path)  # 폰트를 매니저에 추가
