@@ -312,19 +312,46 @@ def replace_synonyms(tokens, synonyms):
 df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
 
-# '인물' 열에서 각 인물 추출 및 처리
-person_list = df['person'].dropna().str.split(',').explode()
-    
-# 데이터 유형 확인 및 문자열로 변환
-person_list = person_list.dropna().astype(str)
-person_list_modified = [x[:-1] if len(x) > 1 else x for x in person_list]
+    # '인물' 열의 존재 여부 확인
+    if '인물' not in df.columns:
+        st.error("'인물' 열이 데이터에 없습니다.")
+    else:
+        # '인물' 열에서 각 인물 추출 및 처리
+        person_list = df['person'].dropna().str.split(',').explode()
 
-person_counter = Counter(person_list_modified)
-top_30_persons = person_counter.most_common(30)
-top_30_df = pd.DataFrame(top_30_persons, columns=['이름', '빈도'])
+        # 중간 결과 확인
+        st.write("분리된 인물 목록:")
+        st.dataframe(person_list.head(10))
 
-st.write("상위 30명 인물 목록")
-st.dataframe(top_30_df)
+        # 각 인물 이름에서 한 글자를 제외
+        person_list_modified = [x.strip()[:-1] if len(x.strip()) > 1 else x.strip() for x in person_list]
+
+        # 중간 결과 확인
+        st.write("한 글자 제외한 인물 목록:")
+        st.write(person_list_modified[:10])
+
+        # 인물 빈도 계산
+        person_counter = Counter(person_list_modified)
+
+        # 상위 30명 추출
+        top_30_persons = person_counter.most_common(30)
+
+        # 데이터프레임으로 변환
+        top_30_df = pd.DataFrame(top_30_persons, columns=['이름', '빈도'])
+
+        # 결과 출력
+        st.write("상위 30명 인물 목록")
+        st.dataframe(top_30_df)
+
+        # 상위 30명 시각화
+        if not top_30_df.empty:
+            st.write("상위 30명 인물 빈도 그래프")
+            fig, ax = plt.subplots()
+            top_30_df.plot(kind='bar', x='이름', y='빈도', ax=ax, legend=False)
+            plt.xticks(rotation=45)
+            st.pyplot(fig)
+        else:
+            st.write("상위 30명의 인물이 없습니다.")
 
 
 top_token = []
