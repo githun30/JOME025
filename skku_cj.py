@@ -9,7 +9,7 @@ import pandas as pd
 from datetime import datetime    # datetime(데이터타임): 날짜와 시간 과년 기능 제공
 import numpy as np               # numpy(넘파이): 수치 해석 기능 제공
 from collections import Counter
-from collections import Counter
+from tqdm import trange  
 
 st.header("언론중재법 개정안에 대한 공동발의 연결망 분석 및 언론보도 분석")
 st.subheader(' - 컴퓨테이셔널저널리즘(JOME025) 기말 프로젝트👨‍💻')
