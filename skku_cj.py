@@ -11,6 +11,8 @@ import numpy as np               # numpy(넘파이): 수치 해석 기능 제공
 from collections import Counter  
 from stqdm import stqdm
 from tqdm import tqdm
+from wordcloud import WordCloud
+
 
 # tqdm의 기본 모드 사용
 tqdm.pandas()
