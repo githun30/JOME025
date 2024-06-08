@@ -11,6 +11,16 @@ import numpy as np               # numpy(넘파이): 수치 해석 기능 제공
 from collections import Counter  
 from stqdm import stqdm
 
+# 폰트 다운로드 및 설정
+font_url = 'https://github.com/githun30/JOME025/blob/a4652b13e3bcedf413c03cb101de00d1334a043e/NanumGothic.ttf?raw=true'
+response = requests.get(font_url)
+font_path = '/tmp/NanumGothic.ttf'
+with open(font_path, 'wb') as f:
+    f.write(response.content)
+
+font = font_manager.FontProperties(fname=font_path).get_name()
+rc('font', family=font)
+
 st.header("언론중재법 개정안에 대한 공동발의 연결망 분석 및 언론보도 분석")
 st.subheader(' - 컴퓨테이셔널저널리즘(JOME025) 기말 프로젝트👨‍💻')
 
