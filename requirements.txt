@@ -8,3 +8,4 @@ konlpy
 openpyxl
 stqdm
 seaborn
+os
