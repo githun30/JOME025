@@ -294,7 +294,7 @@ with col1:
     key_df.index = list(range(1, len(key_df)+1))
     key_df
 
-    df['token_string'] = df['token'].progress_map(lambda x:" ".join(x))
+    df['token_string'] = df['token'].progress_apply(lambda x:" ".join(x))
 
 # "token_string" 열을 공백으로 연결하여 하나의 문자열로 만들기
     text = ' '.join(df['token_string'])
