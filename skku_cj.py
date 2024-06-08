@@ -11,7 +11,6 @@ import numpy as np               # numpy(넘파이): 수치 해석 기능 제공
 from collections import Counter  
 from stqdm import stqdm
 
-# 한글 폰트 설정 시도
 try:
     # 폰트 다운로드 및 설정
     font_url = 'https://github.com/naver/nanumfont/blob/master/NanumGothic.ttf?raw=true'
@@ -22,8 +21,13 @@ try:
 
     # 폰트 로드
     font_name = font_manager.FontProperties(fname=font_path).get_name()
-    rc('font', family=font_name)
-    st.write(f"Font '{font_name}' has been set for the plot.")
+    
+    # 폰트 이름이 올바르게 설정되었는지 확인
+    if font_name:
+        rc('font', family=font_name)
+        st.write(f"Font '{font_name}' has been set for the plot.")
+    else:
+        st.error("Failed to load the font name from the font file.")
 except Exception as e:
     st.error(f"Error setting font: {e}")
 
