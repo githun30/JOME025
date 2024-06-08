@@ -312,7 +312,7 @@ def replace_synonyms(tokens, synonyms):
 df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
 
-df['person'] = df['person'].dropna().apply(lambda x: [name.strip() for name in x.split(',') if len(name.strip()) > 0])
+df['person'] = df['person'].apply(lambda x: [name.strip() for name in x.split(',') if len(name.strip()) > 1] if isinstance(x, str) else [])
 all_persons = [name for sublist in df['person'] for name in sublist if len(name) > 1]
 person_counts = pd.Series(all_persons).value_counts()
 top_20_persons = person_counts.head(20)
