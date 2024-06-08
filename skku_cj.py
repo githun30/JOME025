@@ -362,6 +362,11 @@ with col2:
     
 st.write("")
 
+font_url = 'https://github.com/githun30/JOME025/raw/main/NanumGothic.ttf'  # URL에서 직접 raw 파일을 가져와야 함
+font_path = 'NanumGothic.ttf'
+download_font(font_url, font_path)
+load_custom_font(font_path)
+
 st.write('##### ■ 5대 신문사 보도 워드클라우드')
 # 워드클라우드 생성
  # 레이아웃 설정
