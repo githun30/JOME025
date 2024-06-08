@@ -393,7 +393,7 @@ col1, col2 = st.columns(2)
 with col1:
     # 한글 폰트를 사용하여 워드클라우드 생성
     wordcloud = WordCloud(
-        font_path=font_path,  # 한글 폰트 경로 지정
+        font_path = 'NanumGothic.ttf',  # 한글 폰트 경로 지정
         width=600,
         height=300,
         background_color='white',
