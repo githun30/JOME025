@@ -333,7 +333,7 @@ with col1:
     background_color='white',
     colormap='viridis',
     random_state=42,
-    ).generate(text)
+).generate(text)
     
     # 워드클라우드 시각화
     plt.figure(figsize=(10, 5))
