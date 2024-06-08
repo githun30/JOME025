@@ -25,6 +25,7 @@ def download_font(url, save_path):
         try:
             urllib.request.urlretrieve(url, save_path)
         except Exception as e:
+            st.error(f"Failed to download font: {e}")
 
 # 폰트를 로드하고 매트플롯립에서 사용할 수 있도록 설정하는 함수
 def load_custom_font(font_path):
@@ -32,13 +33,6 @@ def load_custom_font(font_path):
     font_name = fm.FontProperties(fname=font_path).get_name()
     plt.rc('font', family=font_name)  # 폰트를 설정
     return font_name
-
-# 폰트 로드 확인 함수 (디버깅 용도)
-def check_font_loading(font_path):
-    fonts = fm.findSystemFonts(fontpaths=[font_path])
-    st.write(f"Loaded fonts: {fonts}")
-    font_properties = fm.FontProperties(fname=font_path)
-    return font_properties.get_name()
 
 # main 함수 내에서 폰트를 다운로드하고 로드
 def main():
@@ -55,6 +49,7 @@ def main():
 # main 함수 호출
 if __name__ == "__main__":
     main()
+    
 # tqdm의 기본 모드 사용
 tqdm.pandas() 
 
