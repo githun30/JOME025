@@ -313,7 +313,7 @@ df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
 
     # '인물' 열의 존재 여부 확인
-    if '인물' not in df.columns:
+    if 'person' not in df.columns:
         st.error("'인물' 열이 데이터에 없습니다.")
     else:
         # '인물' 열에서 각 인물 추출 및 처리
