@@ -10,20 +10,22 @@ def unique(list):
     x = np.array(list)
     return np.unique(x)
 
-@st.cache(allow_output_mutation=True, hash_funcs={fm.FontProperties: lambda _: None})
-def fontRegistered():
-    font_dirs = [os.getcwd() + '/customFonts']
-    font_files = fm.findSystemFonts(fontpaths=font_dirs)
-    for font_file in font_files:
-        fm.fontManager.addfont(font_file)
-    fm._rebuild()  # 폰트 매니저 재구성
+# 폰트를 로드하고 매트플롯립에서 사용할 수 있도록 설정하는 함수
+def load_custom_font(font_path):
+    fm.fontManager.addfont(font_path)  # 폰트를 매니저에 추가
+    font_name = fm.FontProperties(fname=font_path).get_name()
+    plt.rc('font', family=font_name)  # 폰트를 설정
+    return font_name
 
 def main():
-    fontRegistered()
-    fontNames = [f.name for f in fm.fontManager.ttflist]
-    # 'NanumGothic' 폰트를 직접 지정
-    fontname = 'NanumGothic'
-    plt.rc('font', family=fontname)
+    # NanumGothic 폰트 경로 지정 (로컬에 존재해야 함)
+    font_path = 'C:/Users/KMGHO/Downloads/NanumGothic.ttf'
+    
+    # 폰트 로드 및 설정
+    font_name = load_custom_font(font_path)
+    
+    # 폰트가 제대로 로드되고 설정되었는지 확인
+    st.write(f"로딩된 폰트: {font_name}")
 
     tips = sns.load_dataset("tips")
     fig, ax = plt.subplots()
@@ -33,5 +35,7 @@ def main():
 
     st.dataframe(tips)
 
+if __name__ == "__main__":
+    main()
 if __name__ == "__main__":
     main()
