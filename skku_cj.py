@@ -19,7 +19,6 @@ from konlpy.tag import Okt
 import seaborn as sns 
 import urllib.request
 
-
 # URL에서 폰트 파일을 다운로드하고 저장하는 함수
 def download_font(url, save_path):
     if not os.path.exists(save_path):
@@ -44,18 +43,25 @@ def check_font_loading(font_path):
     font_properties = fm.FontProperties(fname=font_path)
     st.write(f"Loaded font name: {font_properties.get_name()}")
     return font_properties.get_name()
+
+# main 함수 내에서 폰트를 다운로드하고 로드
 def main():
-    # NanumGothic 폰트 URL 및 로컬 저장 경로 지정
     font_url = 'https://github.com/githun30/JOME025/raw/main/NanumGothic.ttf'  # URL에서 직접 raw 파일을 가져와야 함
     font_path = 'NanumGothic.ttf'
     
     # 폰트 다운로드 및 로드
     download_font(font_url, font_path)
     font_name = load_custom_font(font_path)
+    
+    # 폰트 로드 확인
+    loaded_font_name = check_font_loading(font_path)
+    
+    # 폰트가 제대로 로드되고 있는지 확인
+    st.write(f"Loaded font name for use: {loaded_font_name}")
 
+# main 함수 호출
 if __name__ == "__main__":
     main()
-    
 # tqdm의 기본 모드 사용
 tqdm.pandas() 
 
