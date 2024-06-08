@@ -229,7 +229,7 @@ st.write('######  📍 동의어: 민주당(더불어민주당), 의회(국회)'
 
 st.write("")
 
-df = pd.read_excel("D:/JOME/2024-1/컴퓨테이셔널저널리즘/과제/기말/언론조정/언론중재법 보도.xlsx")
+df = pd.read_excel(https://github.com/githun30/JOME025/blob/66f3da66ecf08320aaeb9f3a8a7ce72591d79625/%EC%96%B8%EB%A1%A0%EC%A4%91%EC%9E%AC%EB%B2%95%20%EB%B3%B4%EB%8F%84.xlsx")
 
 df = df[['일자', '언론사', '키워드']]
 
