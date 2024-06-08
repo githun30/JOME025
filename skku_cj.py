@@ -14,7 +14,6 @@ from tqdm import tqdm
 from wordcloud import WordCloud
 import os
 import matplotlib.font_manager as fm
-from bs4 import BeautifulSoup
 from konlpy.tag import Kkma
 from konlpy.tag import Okt
 import nltk
