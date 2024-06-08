@@ -11,6 +11,7 @@ import numpy as np               # numpy(넘파이): 수치 해석 기능 제공
 from collections import Counter  
 from stqdm import stqdm
 
+import platformfrom matplotlib import font_manager, rcplt.rcParams['axes.unicode_minus'] = Falseif platform.system() == 'Linux':    rc('font', family='NanumGothic')
 
 st.header("언론중재법 개정안에 대한 공동발의 연결망 분석 및 언론보도 분석")
 st.subheader(' - 컴퓨테이셔널저널리즘(JOME025) 기말 프로젝트👨‍💻')
@@ -273,7 +274,7 @@ df['date'] = pd.to_datetime(df['date'], format='%Y%m%d')
 # 일자 기준 처리
 date_counts = df['date'].value_counts().sort_index()
 
-font_path = 'C:\\Windows\\Fonts\\NanumGothic.ttf'  # 폰트 파일 경로
+font_path = 'https://github.com/githun30/JOME025/blob/c58c570cc97f2025fc68dcc0cbc45e2a62147146/NanumGothic.ttf'  # 폰트 파일 경로
 font_name = font_manager.FontProperties(fname=font_path).get_name()
 rc('font', family=font_name)
 
