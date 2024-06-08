@@ -172,6 +172,10 @@ member_party = dict(zip(members_df['의원명'], members_df['정당']))
 proposer_column = '대표발의자'
 cosponsors_column = '공동발의자'
 
+party_color_table = pd.DataFrame(list(party_colors.items()), columns=['정당', '색상'])
+st.write("### 정당별 색상")
+st.table(party_color_table)
+
 # 네트워크 그래프 생성
 G = nx.Graph()
 
