@@ -34,19 +34,14 @@ def load_custom_font(font_path):
     plt.rc('font', family=font_name)  # 폰트를 설정
     return font_name
 
-# main 함수 내에서 폰트를 다운로드하고 로드
 def main():
-    font_url = 'https://github.com/githun30/JOME025/raw/main/NanumGothic.ttf'  # URL에서 직접 raw 파일을 가져와야 함
+    # NanumGothic 폰트 URL 및 로컬 저장 경로 지정
+    font_url = 'https://github.com/githun30/JOME025/raw/main/NanumGothic.ttf'  # URL에서 raw 파일을 가져와야 함
     font_path = 'NanumGothic.ttf'
     
     # 폰트 다운로드 및 로드
     download_font(font_url, font_path)
     font_name = load_custom_font(font_path)
-    
-
-# main 함수 호출
-if __name__ == "__main__":
-    main()
     
 # tqdm의 기본 모드 사용
 tqdm.pandas() 
