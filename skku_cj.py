@@ -11,26 +11,9 @@ import numpy as np               # numpy(넘파이): 수치 해석 기능 제공
 from collections import Counter  
 from stqdm import stqdm
 
-try:
-    # 폰트 다운로드 및 설정
-    font_url = 'https://github.com/githun30/JOME025/blob/a4652b13e3bcedf413c03cb101de00d1334a043e/NanumGothic.ttf?raw=true'
-    response = requests.get(font_url)
-    font_path = '/tmp/NanumGothic.ttf'
-    with open(font_path, 'wb') as f:
-        f.write(response.content)
-
-    # 폰트 로드
-    font_name = font_manager.FontProperties(fname=font_path).get_name()
-    
-    # 폰트 이름이 올바르게 설정되었는지 확인
-    if font_name:
-        rc('font', family=font_name)  # 'font'가 아닌 'font_name' 사용
-        st.write(f"Font '{font_name}' has been set for the plot.")
-    else:
-        st.error("Failed to load the font name from the font file.")
-except Exception as e:
-    st.error(f"Error setting font: {e}")
-
+font_url = 'https://github.com/githun30/JOME025/blob/a4652b13e3bcedf413c03cb101de00d1334a043e/NanumGothic.ttf?raw=true'
+response = requests.get(font_url)
+font_name = font_manager.FontProperties(fname=font_path).get_name()
 
 st.header("언론중재법 개정안에 대한 공동발의 연결망 분석 및 언론보도 분석")
 st.subheader(' - 컴퓨테이셔널저널리즘(JOME025) 기말 프로젝트👨‍💻')
