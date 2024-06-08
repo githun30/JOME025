@@ -258,15 +258,14 @@ df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.
 
 
 top_token = []
-i = 0
 
-for i in stqdm(0, len(df)):
+# stqdm 사용하여 진행 상황 표시
+for i in stqdm(range(len(df)), desc="Processing tokens"):
     try:
-        tokenloc = df['token'].loc[i]
-        top_token += tokenloc
-        i +=1
-    except:
-        i +=1
+        tokenloc = df['token'].iloc[i]
+        top_token += tokenloc  # 토큰 리스트에 추가
+    except Exception as e:
+        st.error(f"Error at row {i}: {e}")
 
 st.write('##### ■ 보도 추이')
 df['date'] = pd.to_datetime(df['date'], format='%Y%m%d')
