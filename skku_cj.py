@@ -45,8 +45,11 @@ def main():
     # 폰트 다운로드 및 로드
     download_font(font_url, font_path)
     font_name = load_custom_font(font_path)
-if __name__ == "__main__":
-    main()
+
+
+font_url = 'https://github.com/githun30/JOME025/raw/main/NanumGothic.ttf'  # URL에서 직접 raw 파일을 가져와야 함
+font_path = 'NanumGothic.ttf'
+download_font(font_url, font_path)
 
 # tqdm의 기본 모드 사용
 tqdm.pandas()
