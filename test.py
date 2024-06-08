@@ -10,10 +10,10 @@ def unique(list):
     x = np.array(list)
     return np.unique(x)
 
-@st.cache(allow_output_mutation=True, ignore_hash=True)  # 캐시 설정 변경
+@st.cache(allow_output_mutation=True, hash_funcs={fm.FontProperties: lambda _: None})
 def fontRegistered():
     font_dirs = [os.getcwd() + '/customFonts']
-    font_files = fm.findSystemFonts(fontpaths=font_abs)
+    font_files = fm.findSystemFonts(fontpaths=font_dirs)
     for font_file in font_files:
         fm.fontManager.addfont(font_file)
     fm._rebuild()  # 폰트 매니저 재구성
