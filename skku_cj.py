@@ -19,10 +19,6 @@ from konlpy.tag import Okt
 import seaborn as sns 
 import urllib.request
 
-def unique(list):
-    x = np.array(list)
-    return np.unique(x)
-
 # URL에서 폰트 파일을 다운로드하고 저장하는 함수
 def download_font(url, save_path):
     if not os.path.exists(save_path):
@@ -49,7 +45,8 @@ def main():
     # 폰트 다운로드 및 로드
     download_font(font_url, font_path)
     font_name = load_custom_font(font_path)
-    
+if __name__ == "__main__":
+    main()
 
 # tqdm의 기본 모드 사용
 tqdm.pandas()
@@ -420,6 +417,7 @@ with col2:
 
 st.image('https://raw.githubusercontent.com/githun30/JOME025/main/%EC%96%B8%EB%A1%A0%EC%9E%90%EC%9C%A0%EC%A7%80%EC%88%98%20%EC%88%9C%EC%9C%84.jpg')
 st.text('출처: 미디어오늘')
+
 
 st.write('''###### - 참고자료
 김세영. (2024). 방심위, '바이든-날리면' MBC에 '최고 수위' 과징금‥YTN에는 '관계자 징계', MBC, 2024년 2월 20일, https://imnews.imbc.com/news/2024/econo/article/6572878_36452.html  
