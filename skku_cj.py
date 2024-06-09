@@ -133,7 +133,7 @@ st.image('https://raw.githubusercontent.com/githun30/JOME025/main/%EC%96%B8%EB%A
 st.text('출처: 연합뉴스')
 
 st.write('''###### 👉 2021년 7월 27일부터 2021년 9월 29일까지의 약 2개월 동안 법안 처리를 둘러싼 갈등과 파행 속 최종 본회의 상정 무산.''')
-st.write('''###### 👉 언론미디어 특별위원회(언론특위)가 구성되.''')
+st.write('''###### 👉 언론미디어 특별위원회(언론특위)가 구성되었으나, 국정감사 및 20대 대통령 선거 등의 이슈로 .''')
 st.write("")
 
 st.write('### 2️⃣ 공동발의안 연결망 분석')
@@ -541,7 +541,8 @@ st.write('''###### - 참고자료
         김세영. (2024). 방심위, '바이든-날리면' MBC에 '최고 수위' 과징금‥YTN에는 '관계자 징계', MBC, 2024년 2월 20일, https://imnews.imbc.com/news/2024/econo/article/6572878_36452  
         유성은. (2021). 대통령도 퇴임 뒤엔 손배 청구 가능, 의혹 보도 족쇄 우려, 중앙일보, 2021년 8월 27일, https://www.joongang.co.kr/article/25001925  
         이은미. (2021). 진용 갖춘 8인 협의체…언론중재법 '18일의 전쟁' 돌입, 연합뉴스, 2021년 9월 7일, https://www.yna.co.kr/view/AKR20210907140000001  
-        이혜리. (2021). 가짜뉴스 '피해 구제'?··· 언론중재법, 누구를 위한 법이냐, 경향신문, 2021년 8월 25일, https://www.khan.co.kr/national/media/article/202108251737001
-        서영민. (2021). 급변하는 언론 환경…유튜브 등 1인 미디어는 어떻게?, KBS, 2021년 9월 18일, https://news.kbs.co.kr/news/pc/view/view.do?ncd=5283438
-        정철운. (2024). 윤석열 정부 2년 만에… 세계 언론자유지수 62위 ‘추락’, 미디어오늘, 2024년 5월 3일, https://www.mediatoday.co.kr/news/articleView.html?idxno=317777 
+        이혜리. (2021). 가짜뉴스 '피해 구제'?··· 언론중재법, 누구를 위한 법이냐, 경향신문, 2021년 8월 25일, https://www.khan.co.kr/national/media/article/202108251737001  
+        서영민. (2021). 급변하는 언론 환경…유튜브 등 1인 미디어는 어떻게?, KBS, 2021년 9월 18일, https://news.kbs.co.kr/news/pc/view/view.do?ncd=5283438  
+        정철운. (2022). 입법권 한계 ‘유감’으로 끝난 국회 언론·미디어특위, 미디어오늘, 2022년 5월 24일, https://www.mediatoday.co.kr/news/articleView.html?idxno=304164  
+        정철운. (2024). 윤석열 정부 2년 만에… 세계 언론자유지수 62위 ‘추락’, 미디어오늘, 2024년 5월 3일, https://www.mediatoday.co.kr/news/articleView.html?idxno=317777  
          ''')
