@@ -315,7 +315,7 @@ df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.
 
 try:
     # URL에서 파일을 다운로드
-    response = requests.get(file_url)
+    response = requests.get(url)
     response.raise_for_status()  # 요청에 실패할 경우 예외 발생
 
     # 엑셀 파일을 판다스 데이터프레임으로 읽기
