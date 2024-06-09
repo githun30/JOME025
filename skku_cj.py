@@ -393,7 +393,25 @@ df = pd.read_excel(data)
 df = df[['일자', '인물', '키워드']]
 
 df.columns = ['date', 'person', 'token']
-df['person'] = df['person'].str.split(",").tolist()
+df['token'] = df['token'].str.split(",").tolist()
+
+# 'person' 및 'token' 열을 리스트로 변환
+df['person'] = df['person'].fillna("").apply(lambda x: x.split(",") if isinstance(x, str) else [])
+df['token'] = df['token'].fillna("").apply(lambda x: x.split(",") if isinstance(x, str) else [])
+
+# 불용어 및 동의어 설정
+stopwords = set(['언론', '언론중재법', '중재', '언론중재', '중재법', '이날', '개정안'])
+synonyms = {
+    '더불어민주당': '민주당',
+    '의회': '국회'
+}
+
+# 동의어 치환 및 불용어 제거 함수
+def replace_synonyms(tokens, synonyms):
+    return [synonyms.get(word.strip(), word.strip()) for word in tokens if word.strip().lower() not in stopwords]
+
+# 동의어 및 불용어 처리
+df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
 df['token'] = df['token'].str.split(",").tolist()
 
 stopwords = set(['언론', '언론중재법', '중재', '언론중재', '중재법','이날', '개정안'])
@@ -408,29 +426,24 @@ def replace_synonyms(tokens, synonyms):
 df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
 
-df['token'] = df['token'].str.split(",").tolist()
-
-stopwords = set(['언론', '언론중재법', '중재', '언론중재', '중재법','이날', '개정안'])
-synonyms = {
-    '더불어민주당': '민주당',
-    '의회': '국회'
-}
-def replace_synonyms(tokens, synonyms):
-    return [synonyms.get(word.strip(), word.strip()) for word in tokens if word.strip().lower() not in stopwords]
-
-# 동의어 및 불용어 처리
-df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
-df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
-
+ 토큰 추출
 top_token = []
+for tokens in df['token']:
+    top_token.extend(tokens)
 
-# stqdm 사용하여 진행 상황 표시
-for i in stqdm(range(len(df)), desc="Processing tokens"):
-    try:
-        tokenloc = df['token'].iloc[i]
-        top_token += tokenloc  # 토큰 리스트에 추가
-    except Exception as e:
-        st.error(f"Error at row {i}: {e}")
+# 키워드 빈도분석
+st.write('##### ■ 키워드 빈도분석')
+top_keyword = Counter(top_token)
+key_df = pd.DataFrame(top_keyword.most_common(50), columns=['keyword', 'count'])
+key_df.index = list(range(1, len(key_df) + 1))
+
+# 데이터프레임을 화면에 표시
+st.write("상위 50개의 키워드 빈도 분석")
+st.dataframe(key_df)
+
+# 키워드를 문자열로 변환하여 결합
+df['token_string'] = df['token'].apply(lambda x: " ".join(x))
+text = ' '.join(df['token_string'])
 
 st.write('##### ■ 키워드 빈도분석')
 
