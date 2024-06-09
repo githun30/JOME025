@@ -29,10 +29,6 @@ response.raise_for_status()  # 요청에 실패할 경우 예외 발생
 # 엑셀 파일을 판다스 데이터프레임으로 읽기
 df = pd.read_excel(BytesIO(response.content))
 
-# 원본 데이터 확인
-st.write("URL에서 다운로드한 파일의 데이터:")
-st.write(df.head())  # 처음 몇 줄 확인
-
 # 데이터 처리
 if all(col in df.columns for col in ['일자', '인물', '키워드']):
     df = df[['일자', '인물', '키워드']]
@@ -48,9 +44,6 @@ if all(col in df.columns for col in ['일자', '인물', '키워드']):
     top_30_person = Counter(top_person)
     top_30_person_list = top_30_person.most_common(30)
 
-    # 결과 확인
-    st.write("가장 많이 언급된 상위 30명의 인물:")
-    st.write(top_30_person_list)
 
     key_person_df = pd.DataFrame(top_30_person_list, columns=['person', 'count'])
     key_person_df.index = list(range(1, len(key_person_df) + 1))
