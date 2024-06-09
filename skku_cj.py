@@ -298,20 +298,6 @@ df = df[['일자', '인물', '키워드']]
 
 df.columns = ['date', 'person', 'token']
 df['person'] = df['person'].str.split(",").tolist()
-df['token'] = df['token'].str.split(",").tolist()
-
-stopwords = set(['언론', '언론중재법', '중재', '언론중재', '중재법','이날', '개정안'])
-synonyms = {
-    '더불어민주당': '민주당',
-    '의회': '국회'
-}
-def replace_synonyms(tokens, synonyms):
-    return [synonyms.get(word.strip(), word.strip()) for word in tokens if word.strip().lower() not in stopwords]
-
-# 동의어 및 불용어 처리
-df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
-df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
-
 
 try:
     # URL에서 파일을 다운로드
@@ -321,32 +307,16 @@ try:
     # 엑셀 파일을 판다스 데이터프레임으로 읽기
     df = pd.read_excel(BytesIO(response.content))
 
-    # 원본 데이터 확인
-    st.write("URL에서 다운로드한 파일의 데이터:")
-    st.write(df.head())  # 처음 몇 줄 확인
-
     # 데이터 처리
     if all(col in df.columns for col in ['일자', '인물', '키워드']):
         df = df[['일자', '인물', '키워드']]
         df.columns = ['date', 'person', 'token']
 
-        # 중간 데이터 확인
-        st.write("필요한 열만 선택한 데이터:")
-        st.write(df.head())
-
         df['person'] = df['person'].fillna("").apply(lambda x: x.split(",") if isinstance(x, str) else [])
-
-        # 리스트로 변환된 '인물' 열 확인
-        st.write("'인물' 열을 리스트로 변환한 데이터:")
-        st.write(df['person'].head())
 
         # 인물 리스트에서 공백 제거 및 1글자 이하 필터링
         top_person = [person.strip() for sublist in df['person'] if isinstance(sublist, list) 
                       for person in sublist if person.strip() and len(person.strip()) > 1]
-
-        # 추출된 인물 리스트 확인
-        st.write("추출된 인물 리스트 (필터링 후):")
-        st.write(top_person[:10])  # 처음 10개 항목만 표시
 
         top_30_person = Counter(top_person)
         top_30_person_list = top_30_person.most_common(30)
@@ -391,6 +361,57 @@ plt.xticks(rotation=45)
 plt.grid(True)
 
 st.pyplot(fig)
+
+url = "https://raw.githubusercontent.com/githun30/JOME025/66f3da66ecf08320aaeb9f3a8a7ce72591d79625/%EC%96%B8%EB%A1%A0%EC%A4%91%EC%9E%AC%EB%B2%95%20%EB%B3%B4%EB%8F%84.xlsx"
+
+# requests를 사용하여 데이터를 받아온다
+response = requests.get(url)
+data = BytesIO(response.content)
+
+# pandas로 Excel 파일 읽기
+df = pd.read_excel(data)
+
+df = df[['일자', '인물', '키워드']]
+
+df.columns = ['date', 'person', 'token']
+df['person'] = df['person'].str.split(",").tolist()
+df['token'] = df['token'].str.split(",").tolist()
+
+stopwords = set(['언론', '언론중재법', '중재', '언론중재', '중재법','이날', '개정안'])
+synonyms = {
+    '더불어민주당': '민주당',
+    '의회': '국회'
+}
+def replace_synonyms(tokens, synonyms):
+    return [synonyms.get(word.strip(), word.strip()) for word in tokens if word.strip().lower() not in stopwords]
+
+# 동의어 및 불용어 처리
+df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
+df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
+
+df['token'] = df['token'].str.split(",").tolist()
+
+stopwords = set(['언론', '언론중재법', '중재', '언론중재', '중재법','이날', '개정안'])
+synonyms = {
+    '더불어민주당': '민주당',
+    '의회': '국회'
+}
+def replace_synonyms(tokens, synonyms):
+    return [synonyms.get(word.strip(), word.strip()) for word in tokens if word.strip().lower() not in stopwords]
+
+# 동의어 및 불용어 처리
+df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
+df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
+
+top_token = []
+
+# stqdm 사용하여 진행 상황 표시
+for i in stqdm(range(len(df)), desc="Processing tokens"):
+    try:
+        tokenloc = df['token'].iloc[i]
+        top_token += tokenloc  # 토큰 리스트에 추가
+    except Exception as e:
+        st.error(f"Error at row {i}: {e}")
 
 st.write('##### ■ 키워드 빈도분석')
 
