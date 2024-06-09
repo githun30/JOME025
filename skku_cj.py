@@ -312,19 +312,28 @@ def replace_synonyms(tokens, synonyms):
 df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
 
-df['person'] = df['person'].fillna("").apply(lambda x: x.split(",") if isinstance(x, str) else [])
+# 데이터 처리
+if all(col in df.columns for col in ['일자', '인물', '키워드']):
+    df = df[['일자', '인물', '키워드']]
+    df.columns = ['date', 'person', 'token']
 
-# 인물 리스트에서 공백 제거 및 1글자 이하 필터링
-top_person = [person.strip() for sublist in df['person'] if isinstance(sublist, list) 
-              for person in sublist if person.strip() and len(person.strip()) > 1]
-top_30_person = Counter(top_person)
-top_30_person_list = top_30_person.most_common(30)
+    df['person'] = df['person'].fillna("").apply(lambda x: x.split(",") if isinstance(x, str) else [])
 
-key_person_df = pd.DataFrame(top_30_person_list, columns=['person', 'count'])
-key_person_df.index = list(range(1, len(key_person_df) + 1))
-st.title("뉴스 기사에서 가장 많이 언급된 상위 30명의 인물")
-st.write("이 테이블은 뉴스 기사 데이터셋에서 가장 많이 언급된 상위 30명의 인물을 보여줍니다.")
-st.dataframe(key_person_df)
+    # 인물 리스트에서 공백 제거 및 1글자 이하 필터링
+    top_person = [person.strip() for sublist in df['person'] if isinstance(sublist, list) 
+                  for person in sublist if person.strip() and len(person.strip()) > 1]
+
+
+    top_30_person = Counter(top_person)
+    top_30_person_list = top_30_person.most_common(30)
+
+
+    key_person_df = pd.DataFrame(top_30_person_list, columns=['person', 'count'])
+    key_person_df.index = list(range(1, len(key_person_df) + 1))
+
+    st.title("뉴스 기사에서 가장 많이 언급된 상위 30명의 인물")
+    st.write("이 테이블은 뉴스 기사 데이터셋에서 가장 많이 언급된 상위 30명의 인물을 보여줍니다.")
+    st.dataframe(key_person_df)
 
 top_token = []
 
