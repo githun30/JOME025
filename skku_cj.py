@@ -312,28 +312,59 @@ def replace_synonyms(tokens, synonyms):
 df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
 
-# 데이터 처리
-if all(col in df.columns for col in ['일자', '인물', '키워드']):
-    df = df[['일자', '인물', '키워드']]
-    df.columns = ['date', 'person', 'token']
 
-    df['person'] = df['person'].fillna("").apply(lambda x: x.split(",") if isinstance(x, str) else [])
+try:
+    # URL에서 파일을 다운로드
+    response = requests.get(file_url)
+    response.raise_for_status()  # 요청에 실패할 경우 예외 발생
 
-    # 인물 리스트에서 공백 제거 및 1글자 이하 필터링
-    top_person = [person.strip() for sublist in df['person'] if isinstance(sublist, list) 
-                  for person in sublist if person.strip() and len(person.strip()) > 1]
+    # 엑셀 파일을 판다스 데이터프레임으로 읽기
+    df = pd.read_excel(BytesIO(response.content))
 
+    # 원본 데이터 확인
+    st.write("URL에서 다운로드한 파일의 데이터:")
+    st.write(df.head())  # 처음 몇 줄 확인
 
-    top_30_person = Counter(top_person)
-    top_30_person_list = top_30_person.most_common(30)
+    # 데이터 처리
+    if all(col in df.columns for col in ['일자', '인물', '키워드']):
+        df = df[['일자', '인물', '키워드']]
+        df.columns = ['date', 'person', 'token']
 
+        # 중간 데이터 확인
+        st.write("필요한 열만 선택한 데이터:")
+        st.write(df.head())
 
-    key_person_df = pd.DataFrame(top_30_person_list, columns=['person', 'count'])
-    key_person_df.index = list(range(1, len(key_person_df) + 1))
+        df['person'] = df['person'].fillna("").apply(lambda x: x.split(",") if isinstance(x, str) else [])
 
-st.write('##### ■ 보도 출현 상위 30명')
-st.write("이 테이블은 뉴스 기사 데이터셋에서 가장 많이 언급된 상위 30명의 인물을 보여줍니다.")
-st.dataframe(key_person_df)
+        # 리스트로 변환된 '인물' 열 확인
+        st.write("'인물' 열을 리스트로 변환한 데이터:")
+        st.write(df['person'].head())
+
+        # 인물 리스트에서 공백 제거 및 1글자 이하 필터링
+        top_person = [person.strip() for sublist in df['person'] if isinstance(sublist, list) 
+                      for person in sublist if person.strip() and len(person.strip()) > 1]
+
+        # 추출된 인물 리스트 확인
+        st.write("추출된 인물 리스트 (필터링 후):")
+        st.write(top_person[:10])  # 처음 10개 항목만 표시
+
+        top_30_person = Counter(top_person)
+        top_30_person_list = top_30_person.most_common(30)
+
+        # 상위 30명의 인물 데이터프레임으로 변환
+        if top_30_person_list:
+            key_person_df = pd.DataFrame(top_30_person_list, columns=['person', 'count'])
+            key_person_df.index = list(range(1, len(key_person_df) + 1))
+
+            st.title("뉴스 기사에서 가장 많이 언급된 상위 30명의 인물")
+            st.write("이 테이블은 뉴스 기사 데이터셋에서 가장 많이 언급된 상위 30명의 인물을 보여줍니다.")
+            st.dataframe(key_person_df)
+        else:
+            st.write("상위 30명의 인물을 추출할 수 없습니다. 필터링된 인물 리스트가 비어 있습니다.")
+    else:
+        st.write("데이터에 '일자', '인물', '키워드' 열이 없습니다.")
+except Exception as e:
+    st.write(f"오류가 발생했습니다: {e}")
 
 top_token = []
 
