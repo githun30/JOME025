@@ -382,36 +382,18 @@ st.write("")
 
 
 url = "https://raw.githubusercontent.com/githun30/JOME025/66f3da66ecf08320aaeb9f3a8a7ce72591d79625/%EC%96%B8%EB%A1%A0%EC%A4%91%EC%9E%AC%EB%B2%95%20%EB%B3%B4%EB%8F%84.xlsx"
-
-# requests를 사용하여 데이터를 받아온다
+#
+requests를 사용하여 데이터를 받아온다
 response = requests.get(url)
 data = BytesIO(response.content)
 
 # pandas로 Excel 파일 읽기
 df = pd.read_excel(data)
 
-df = df[['일자', '인물', '키워드']]
 
-df.columns = ['date', 'person', 'token']
-df['token'] = df['token'].str.split(",").tolist()
+df = df[['일자', '언론사', '키워드']]
 
-# 'person' 및 'token' 열을 리스트로 변환
-df['person'] = df['person'].fillna("").apply(lambda x: x.split(",") if isinstance(x, str) else [])
-df['token'] = df['token'].fillna("").apply(lambda x: x.split(",") if isinstance(x, str) else [])
-
-# 불용어 및 동의어 설정
-stopwords = set(['언론', '언론중재법', '중재', '언론중재', '중재법', '이날', '개정안'])
-synonyms = {
-    '더불어민주당': '민주당',
-    '의회': '국회'
-}
-
-# 동의어 치환 및 불용어 제거 함수
-def replace_synonyms(tokens, synonyms):
-    return [synonyms.get(word.strip(), word.strip()) for word in tokens if word.strip().lower() not in stopwords]
-
-# 동의어 및 불용어 처리
-df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
+df.columns = ['date', 'press', 'token']
 df['token'] = df['token'].str.split(",").tolist()
 
 stopwords = set(['언론', '언론중재법', '중재', '언론중재', '중재법','이날', '개정안'])
@@ -426,24 +408,18 @@ def replace_synonyms(tokens, synonyms):
 df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
 
- 토큰 추출
+
 top_token = []
-for tokens in df['token']:
-    top_token.extend(tokens)
+i = 0
 
-# 키워드 빈도분석
-st.write('##### ■ 키워드 빈도분석')
-top_keyword = Counter(top_token)
-key_df = pd.DataFrame(top_keyword.most_common(50), columns=['keyword', 'count'])
-key_df.index = list(range(1, len(key_df) + 1))
+for i in trange(0, len(df)):
+    try:
+        tokenloc = df['token'].loc[i]
+        top_token += tokenloc
+        i +=1
+    except:
+        i +=1
 
-# 데이터프레임을 화면에 표시
-st.write("상위 50개의 키워드 빈도 분석")
-st.dataframe(key_df)
-
-# 키워드를 문자열로 변환하여 결합
-df['token_string'] = df['token'].apply(lambda x: " ".join(x))
-text = ' '.join(df['token_string'])
 
 st.write('##### ■ 키워드 빈도분석')
 
@@ -457,7 +433,7 @@ with col1:
     key_df.index = list(range(1, len(key_df)+1))
     key_df
 
-    df['token_string'] = df['token'].progress_apply(lambda x:" ".join(x))
+    df['token_string'] = df['token'].progress_map(lambda x:" ".join(x))
 
 # "token_string" 열을 공백으로 연결하여 하나의 문자열로 만들기
     text = ' '.join(df['token_string'])
@@ -471,6 +447,7 @@ with col2:
         """)
     
 st.write("")
+
 
 
 st.write('##### ■ 5대 신문사 보도 워드클라우드')
