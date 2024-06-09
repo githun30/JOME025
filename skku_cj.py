@@ -376,6 +376,11 @@ plt.grid(True)
 
 st.pyplot(fig)
 
+st.write('''###### 👉 언론보도는 2021년 7월부터 9월까지의 기간에 집중됨.''')  
+st.write('''###### 👉 개정안 처리와 관련한 시기에만 언론보도의 대상이 되었음.''')
+st.write("")
+
+
 url = "https://raw.githubusercontent.com/githun30/JOME025/66f3da66ecf08320aaeb9f3a8a7ce72591d79625/%EC%96%B8%EB%A1%A0%EC%A4%91%EC%9E%AC%EB%B2%95%20%EB%B3%B4%EB%8F%84.xlsx"
 
 # requests를 사용하여 데이터를 받아온다
