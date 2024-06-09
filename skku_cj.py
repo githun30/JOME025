@@ -462,7 +462,7 @@ with col2:
             - 정치 관련: '민주당(6,610건)', '의원(4,645건)', '처리(3,375건)', '대선(1,205건)'  
             - 법률안 관련: '징벌(1,914건)', '손해(1,803건)', '배상(1,747건)'  
             - 언론 관련: '자유(2,537건)', '허위(1,168건)'  
-         👉 '비판(2,120건)', '반대(1,071건)', '지적(1,053건)' 등의 단어로 언론은 전반적으로 부정적인 입장을 보도했음을 짐작할 수 있다. 
+    👉 '비판(2,120건)', '반대(1,071건)', '지적(1,053건)' 등의 단어로 언론은 전반적으로 부정적인 입장을 보도했음을 짐작할 수 있다. 
     """)
 
 st.write("")
@@ -470,34 +470,22 @@ st.write("")
 
 st.write('##### ■ 5대 신문사 보도 워드클라우드')
 # 워드클라우드 생성
- # 레이아웃 설정
-col1, col2 = st.columns(2)
+# 한글 폰트를 사용하여 워드클라우드 생성
+wordcloud = WordCloud(
+    font_path = 'NanumGothic.ttf',  # 한글 폰트 경로 지정
+    width=1000,
+    height=500,
+    background_color='white',
+    colormap='viridis',
+    random_state=42,
+).generate(text)
     
-with col1:
-    # 한글 폰트를 사용하여 워드클라우드 생성
-    wordcloud = WordCloud(
-        font_path = 'NanumGothic.ttf',  # 한글 폰트 경로 지정
-        width=600,
-        height=300,
-        background_color='white',
-        colormap='viridis',
-        random_state=42,
-    ).generate(text)
+# 워드클라우드를 numpy 배열로 변환하여 시각화
+plt.figure(figsize=(10, 5))
+plt.imshow(wordcloud.to_array(), interpolation='bilinear')
+plt.axis("off")
+st.pyplot(plt)
     
-    # 워드클라우드를 numpy 배열로 변환하여 시각화
-    plt.figure(figsize=(10, 5))
-    plt.imshow(wordcloud.to_array(), interpolation='bilinear')
-    plt.axis("off")
-    st.pyplot(plt)
-    
-with col2:
-    st.write("""
-            👉 보도에서 자주 등장한 인물 30명을 추출한 결과, 전현직 대통령(노무현,이명박,박근혜,문재인,윤석열)/국회의장(박병석)/여야 원내대표(윤호중,김기현) 등을 확인 가능했다.
-            반면, 앞서 살펴본 법률안 공동발의에 대한 각 연결망 지수(연결, 사이, 인접, 아이겐벡터)에서 높은 값을 기록한 의원들은 상위 30명에 들지 못했다.
-            이 분석을 통해 언론보도가 실제 법률 발의보다 법률안을 둘러싼 관계인들을 다루는 데 초점이 맞춰져 있음을 알 수 있었다.
-        """)
-
-
 st.write("")
 
 st.write('### 4️⃣ 결론과 함의점')
