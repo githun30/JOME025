@@ -18,6 +18,7 @@ from konlpy.tag import Kkma
 from konlpy.tag import Okt
 import seaborn as sns 
 import urllib.request
+from tqdm import trange
 
 # URL에서 폰트 파일을 다운로드하고 저장하는 함수
 def download_font(url, save_path):
