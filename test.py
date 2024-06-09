@@ -22,6 +22,8 @@ import urllib.request
 # 엑셀 파일이 있는 URL 지정
 file_url = "https://raw.githubusercontent.com/githun30/JOME025/66f3da66ecf08320aaeb9f3a8a7ce72591d79625/%EC%96%B8%EB%A1%A0%EC%A4%91%EC%9E%AC%EB%B2%95%20%EB%B3%B4%EB%8F%84.xlsx"
 
+# 엑셀 파일을 판다스 데이터프레임으로 읽기
+df = pd.read_excel(BytesIO(response.content))
 
 # URL에서 파일을 다운로드
 response = requests.get(file_url)
@@ -30,30 +32,16 @@ response.raise_for_status()  # 요청에 실패할 경우 예외 발생
 # 엑셀 파일을 판다스 데이터프레임으로 읽기
 df = pd.read_excel(BytesIO(response.content))
 
-# 원본 데이터 확인
-st.write("URL에서 다운로드한 파일의 데이터:")
-st.write(df.head())  # 처음 몇 줄 확인
-
 # 데이터 처리
 if all(col in df.columns for col in ['일자', '인물', '키워드']):
     df = df[['일자', '인물', '키워드']]
     df.columns = ['date', 'person', 'token']
 
-    # 중간 데이터 확인
-    st.write("필요한 열만 선택한 데이터:")
-    st.write(df.head())
-
     df['person'] = df['person'].fillna("").apply(lambda x: x.split(",") if isinstance(x, str) else [])
-
-    # 리스트로 변환된 '인물' 열 확인
-    st.write("'인물' 열을 리스트로 변환한 데이터:")
-    st.write(df['person'].head())
-
-    top_person = [person.strip() for sublist in df['person'] if isinstance(sublist, list) for person in sublist if person.strip()]
-
-    # 빈도 수 확인
-    st.write("추출된 인물 리스트:")
-    st.write(top_person[:10])  # 처음 10개 항목만 표시
+    
+    # 인물 리스트에서 공백 제거 및 1글자 이하 필터링
+    top_person = [person.strip() for sublist in df['person'] if isinstance(sublist, list) 
+                  for person in sublist if person.strip() and len(person.strip()) > 1]
 
     top_30_person = Counter(top_person)
     top_30_person_list = top_30_person.most_common(30)
