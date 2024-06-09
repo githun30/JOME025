@@ -381,72 +381,75 @@ st.write('''###### 👉 개정안 처리와 관련한 시기에만 언론보도�
 st.write("")
 
 
+# 데이터 불러오기
 url = "https://raw.githubusercontent.com/githun30/JOME025/66f3da66ecf08320aaeb9f3a8a7ce72591d79625/%EC%96%B8%EB%A1%A0%EC%A4%91%EC%9E%AC%EB%B2%95%20%EB%B3%B4%EB%8F%84.xlsx"
-#
-requests를 사용하여 데이터를 받아온다
 response = requests.get(url)
 data = BytesIO(response.content)
 
 # pandas로 Excel 파일 읽기
 df = pd.read_excel(data)
 
-
+# 필요한 컬럼 선택 및 이름 변경
 df = df[['일자', '언론사', '키워드']]
-
 df.columns = ['date', 'press', 'token']
+
+# 'token' 컬럼을 리스트로 변환
 df['token'] = df['token'].str.split(",").tolist()
 
-stopwords = set(['언론', '언론중재법', '중재', '언론중재', '중재법','이날', '개정안'])
+# 불용어 및 동의어 설정
+stopwords = set(['언론', '언론중재법', '중재', '언론중재', '중재법', '이날', '개정안'])
 synonyms = {
     '더불어민주당': '민주당',
     '의회': '국회'
 }
-def replace_synonyms(tokens, synonyms):
+
+# 동의어 대체 및 불용어 제거 함수
+def replace_synonyms(tokens, synonyms, stopwords=set()):
+    if not isinstance(tokens, list):
+        print(f"Unexpected data type in tokens: {type(tokens)}. Expected list.")
+        return tokens  # 또는 빈 리스트 반환 등의 처리
     return [synonyms.get(word.strip(), word.strip()) for word in tokens if word.strip().lower() not in stopwords]
 
 # 동의어 및 불용어 처리
-df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms))
+df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms, stopwords))
+
+# 토큰 리스트에서 불용어 제거
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
 
-
+# 키워드 빈도 수집
 top_token = []
-i = 0
-
-for i in trange(0, len(df)):
+for i in trange(len(df)):
     try:
-        tokenloc = df['token'].loc[i]
+        tokenloc = df['token'].iloc[i]
         top_token += tokenloc
-        i +=1
-    except:
-        i +=1
+    except Exception as e:
+        print(f"Error processing row {i}: {e}")
 
-
+# Streamlit 앱에서 결과 출력
 st.write('##### ■ 키워드 빈도분석')
 
 col1, col2 = st.columns(2)
-    
+
 with col1:
     top_keyword = Counter(top_token)
-    top_keyword.most_common(50)
     key_df = pd.DataFrame(top_keyword.most_common(50))
     key_df.columns = ['keyword', 'count']
     key_df.index = list(range(1, len(key_df)+1))
-    key_df
+    st.write(key_df)
 
-    df['token_string'] = df['token'].progress_map(lambda x:" ".join(x))
+# "token" 리스트를 문자열로 변환하여 결합
+df['token_string'] = df['token'].apply(lambda x: " ".join(x))
 
-# "token_string" 열을 공백으로 연결하여 하나의 문자열로 만들기
-    text = ' '.join(df['token_string'])
-    
+# 'token_string' 열을 공백으로 연결하여 하나의 문자열로 만들기
+text = ' '.join(df['token_string'])
+
 with col2:
     st.write("""
-            조선일보, 중앙일보, 동아일보, 한겨레, 경향신문의 보도 중 상위 50개의 해      이 워드클라우드는 조선일보, 중앙일보, 동아일보의 기사 내용을 분석하여 생성되었습니다. 
-            워드클라우드에서 크게 표시된 단어들은 해당 기사에서 빈도가 높은 단어들입니다.
-            상위 20개 단어 빈도 표는 기사 내용에서 가장 자주 등장하는 단어들입니다.
-            이 분석을 통해 각 신문사가 특정 이슈에 대해 어떻게 보도하고 있는지, 어떤 키워드를 중심으로 기사를 작성하는지 알 수 있습니다.
-        """)
-    
-st.write("")
+        조선일보, 중앙일보, 동아일보, 한겨레, 경향신문의 보도 중 상위 50개의 해설 워드클라우드는 조선일보, 중앙일보, 동아일보의 기사 내용을 분석하여 생성되었습니다.
+        워드클라우드에서 크게 표시된 단어들은 해당 기사에서 빈도가 높은 단어들입니다.
+        상위 20개 단어 빈도 표는 기사 내용에서 가장 자주 등장하는 단어들입니다.
+        이 분석을 통해 각 신문사가 특정 이슈에 대해 어떻게 보도하고 있는지, 어떤 키워드를 중심으로 기사를 작성하는지 알 수 있습니다.
+    """)
 
 
 
