@@ -314,19 +314,14 @@ df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.
 
 df['person'] = df['person'].fillna("").apply(lambda x: x.split(",") if isinstance(x, str) else [])
 
-# '인물' 열에서 결측값 처리 및 문자열을 리스트로 변환
-df['person'] = df['person'].fillna("").apply(lambda x: x.split(",") if isinstance(x, str) else [])
-
-# 인물 리스트에서 공백 제거 및 카운팅
-top_person = [person.strip() for sublist in df['person'] if isinstance(sublist, list) for person in sublist if person.strip()]
+# 인물 리스트에서 공백 제거 및 1글자 이하 필터링
+top_person = [person.strip() for sublist in df['person'] if isinstance(sublist, list) 
+              for person in sublist if person.strip() and len(person.strip()) > 1]
 top_30_person = Counter(top_person)
-top_30_person_list = top_30_person.most_common(30)  # 상위 30명 추출
+top_30_person_list = top_30_person.most_common(30)
 
-# 데이터프레임으로 변환
 key_person_df = pd.DataFrame(top_30_person_list, columns=['person', 'count'])
 key_person_df.index = list(range(1, len(key_person_df) + 1))
-
-# Streamlit 앱 구성
 st.title("뉴스 기사에서 가장 많이 언급된 상위 30명의 인물")
 st.write("이 테이블은 뉴스 기사 데이터셋에서 가장 많이 언급된 상위 30명의 인물을 보여줍니다.")
 st.dataframe(key_person_df)
