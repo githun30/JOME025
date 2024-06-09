@@ -305,41 +305,40 @@ col1, col2 = st.columns(2)
 
 with col1:
 
-try:
-    # URL에서 파일을 다운로드
-    response = requests.get(url)
-    response.raise_for_status()  # 요청에 실패할 경우 예외 발생
+    try:
+        # URL에서 파일을 다운로드
+        response = requests.get(url)
+        response.raise_for_status()  # 요청에 실패할 경우 예외 발생
 
-    # 엑셀 파일을 판다스 데이터프레임으로 읽기
-    df = pd.read_excel(BytesIO(response.content))
+        # 엑셀 파일을 판다스 데이터프레임으로 읽기
+        df = pd.read_excel(BytesIO(response.content))
 
-    # 데이터 처리
-    if all(col in df.columns for col in ['일자', '인물', '키워드']):
-        df = df[['일자', '인물', '키워드']]
-        df.columns = ['date', 'person', 'token']
+        # 데이터 처리
+        if all(col in df.columns for col in ['일자', '인물', '키워드']):
+            df = df[['일자', '인물', '키워드']]
+            df.columns = ['date', 'person', 'token']
 
-        df['person'] = df['person'].fillna("").apply(lambda x: x.split(",") if isinstance(x, str) else [])
+            df['person'] = df['person'].fillna("").apply(lambda x: x.split(",") if isinstance(x, str) else [])
 
-        # 인물 리스트에서 공백 제거 및 1글자 이하 필터링
-        top_person = [person.strip() for sublist in df['person'] if isinstance(sublist, list) 
+            # 인물 리스트에서 공백 제거 및 1글자 이하 필터링
+            top_person = [person.strip() for sublist in df['person'] if isinstance(sublist, list) 
                       for person in sublist if person.strip() and len(person.strip()) > 1]
 
-        top_30_person = Counter(top_person)
-        top_30_person_list = top_30_person.most_common(30)
+            top_30_person = Counter(top_person)
+            top_30_person_list = top_30_person.most_common(30)
 
-        # 상위 30명의 인물 데이터프레임으로 변환
-        if top_30_person_list:
-            key_person_df = pd.DataFrame(top_30_person_list, columns=['person', 'count'])
-            key_person_df.index = list(range(1, len(key_person_df) + 1))
+            # 상위 30명의 인물 데이터프레임으로 변환
+            if top_30_person_list:
+                key_person_df = pd.DataFrame(top_30_person_list, columns=['person', 'count'])
+                key_person_df.index = list(range(1, len(key_person_df) + 1))
 
-            st.write("이 테이블은 뉴스 기사 데이터셋에서 가장 많이 언급된 상위 30명의 인물을 보여줍니다.")
-            st.dataframe(key_person_df)
+                st.dataframe(key_person_df)
+            else:
+                st.write("상위 30명의 인물을 추출할 수 없습니다. 필터링된 인물 리스트가 비어 있습니다.")
         else:
-            st.write("상위 30명의 인물을 추출할 수 없습니다. 필터링된 인물 리스트가 비어 있습니다.")
-    else:
-        st.write("데이터에 '일자', '인물', '키워드' 열이 없습니다.")
-except Exception as e:
-    st.write(f"오류가 발생했습니다: {e}")
+            st.write("데이터에 '일자', '인물', '키워드' 열이 없습니다.")
+    except Exception as e:
+        st.write(f"오류가 발생했습니다: {e}")
 
 top_token = []
 
