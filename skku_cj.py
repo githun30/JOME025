@@ -331,9 +331,9 @@ if all(col in df.columns for col in ['일자', '인물', '키워드']):
     key_person_df = pd.DataFrame(top_30_person_list, columns=['person', 'count'])
     key_person_df.index = list(range(1, len(key_person_df) + 1))
 
-    st.title("뉴스 기사에서 가장 많이 언급된 상위 30명의 인물")
-    st.write("이 테이블은 뉴스 기사 데이터셋에서 가장 많이 언급된 상위 30명의 인물을 보여줍니다.")
-    st.dataframe(key_person_df)
+st.write('##### ■ 보도 출현 상위 30명')
+st.write("이 테이블은 뉴스 기사 데이터셋에서 가장 많이 언급된 상위 30명의 인물을 보여줍니다.")
+st.dataframe(key_person_df)
 
 top_token = []
 
