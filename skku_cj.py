@@ -406,12 +406,15 @@ synonyms = {
 # 동의어 대체 및 불용어 제거 함수
 def replace_synonyms(tokens, synonyms, stopwords=set()):
     if not isinstance(tokens, list):
-        print(f"Unexpected data type in tokens: {type(tokens)}. Expected list.")
+        print(f"tokens의 데이터 타입이 예상과 다릅니다: {type(tokens)}. 리스트가 필요합니다.")
         return tokens  # 또는 빈 리스트 반환 등의 처리
     return [synonyms.get(word.strip(), word.strip()) for word in tokens if word.strip().lower() not in stopwords]
 
+# 데이터 유형 확인
+print(df['token'].apply(type).value_counts())
+
 # 동의어 및 불용어 처리
-df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms, stopwords))
+df['token'] = df['token'].apply(lambda tokens: replace_synonyms(tokens, synonyms, stopwords) if isinstance(tokens, list) else tokens)
 
 # 토큰 리스트에서 불용어 제거
 df['token'] = df['token'].apply(lambda tokens: [word for word in tokens if word.lower() not in stopwords])
@@ -451,6 +454,7 @@ with col2:
         이 분석을 통해 각 신문사가 특정 이슈에 대해 어떻게 보도하고 있는지, 어떤 키워드를 중심으로 기사를 작성하는지 알 수 있습니다.
     """)
 
+st.write("")
 
 
 st.write('##### ■ 5대 신문사 보도 워드클라우드')
