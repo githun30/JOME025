@@ -284,6 +284,148 @@ st.write('''###### 👉 법률안 개정 공동발의 연결망은 진보정당(
 st.write('''###### 👉 당시 기자 출신 김영호 의원(더불어민주당, 재선)이 4개의 중심성 지수 모두에서 가장 높게 나타났다.''')
 
 
+# Raw URL로 업데이트
+url2 = 'https://raw.githubusercontent.com/githun30/JOME025/0897f079417d359a05577649ac1125d3f911cd6b/21%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90%20%EB%AA%85%EB%8B%A8.xlsx'
+url3 = 'https://raw.githubusercontent.com/githun30/JOME025/0897f079417d359a05577649ac1125d3f911cd6b/21%EB%8C%80%20%EA%B5%AD%ED%9A%8C%20%EB%B0%9C%EC%9D%98%EB%B2%95%EB%A5%A0%EC%95%88.xlsx'
+
+response = requests.get(url2)
+member_file_data = BytesIO(response.content)
+
+response = requests.get(url3)
+law_file_data = BytesIO(response.content)
+
+members_df = pd.read_excel(member_file_data)
+print(members_df.head())
+
+laws_df = pd.read_excel(law_file_data)
+print(laws_df.head())
+
+# 특정 법률안 필터링 ("저작권법 일부개정법률안")
+law_name = "저작권법 일부개정법률안"
+law_df = laws_df[laws_df['법률안명'].str.contains(law_name)]
+print(law_df.head())
+
+# 정당별 색상 딕셔너리 생성
+party_colors = {
+    '더불어민주당': 'blue',
+    '더불어민주연합': 'blue',
+    '국민의힘': 'red',
+    '자유통일당': 'pink',
+    '개혁신당': 'orange',
+    '녹색정의당': 'green',
+    '무소속': 'gray',
+    '새로운미래': 'cyan',
+    '새진보연합': 'lightgreen',
+    '조국혁신당': 'navy',
+    '진보당': 'black'
+}
+
+# 국회의원 이름과 정당을 매핑하는 딕셔너리 생성
+member_party = dict(zip(members_df['의원명'], members_df['정당']))
+
+# 관련된 컬럼 추출 (대표발의자와 공동발의자)
+proposer_column = '대표발의자'
+cosponsors_column = '공동발의자'
+
+# 네트워크 그래프 생성
+G = nx.Graph()
+
+# 노드와 엣지를 그래프에 추가
+node_counts = {}
+proposers = set()
+
+for index, row in law_df.iterrows():
+    proposer = row[proposer_column].strip()
+    proposers.add(proposer)
+    cosponsors = [cosponsor.strip() for cosponsor in row[cosponsors_column].split(',')]  # 공동발의자가 콤마로 구분된 문자열이라 가정
+    
+    # 등장 횟수 계산
+    if proposer in node_counts:
+        node_counts[proposer] += 1
+    else:
+        node_counts[proposer] = 1
+        
+    G.add_node(proposer, shape='s', party=member_party.get(proposer, '무소속'))  # 대표발의자는 사각형으로 표시
+    
+    for cosponsor in cosponsors:
+        if cosponsor in node_counts:
+            node_counts[cosponsor] += 1
+        else:
+            node_counts[cosponsor] = 1
+            
+        G.add_node(cosponsor, shape='o', party=member_party.get(cosponsor, '무소속'))  # 공동발의자는 원형으로 표시
+        G.add_edge(proposer, cosponsor)
+
+# 등장 횟수에 따른 노드 크기 정의
+node_sizes = [node_counts[node] * 5000 for node in G.nodes]
+
+# 대표발의자와 공동발의자를 다른 모양으로 구분
+pos = nx.spring_layout(G, seed=42)  # 일관된 레이아웃을 위해 시드 값 설정
+node_shapes = set((aShape[1]["shape"] for aShape in G.nodes(data=True)))
+
+plt.figure(figsize=(20, 14))  # 그림 크기 확대
+for shape in node_shapes:
+    shaped_nodes = [sNode[0] for sNode in G.nodes(data=True) if sNode[1]["shape"] == shape]
+    shaped_sizes = [node_counts[node] * 350 for node in shaped_nodes]
+    shaped_colors = np.array([party_colors[G.nodes[node]["party"]] for node in shaped_nodes])
+    nx.draw_networkx_nodes(G, pos,
+                           node_shape=shape,
+                           nodelist=shaped_nodes,
+                           node_size=shaped_sizes,
+                           node_color=shaped_colors)
+nx.draw_networkx_edges(G, pos)
+nx.draw_networkx_labels(G, pos, font_size=12, font_family='NanumGothic', font_weight='bold')  # 폰트 크기 확대
+
+plt.title('대표발의자 및 공동발의자의 네트워크', fontsize=15)
+
+# 정당별 색상 테이블 추가
+ax = plt.gca()  # 현재 그래프의 축을 가져옴
+
+# 정당별 색상 설명 테이블을 그리기 위해 텍스트 위치 설정
+y_offset = 1.1  # 그래프 상단 위의 여백 설정
+x_pos = 1.05  # 그래프 오른쪽 여백 설정
+
+# 정당별 색상 정보를 추가
+for i, (party, color) in enumerate(party_colors.items()):
+    plt.text(x_pos, y_offset - i * 0.05, f'{party}: {color}', fontsize=12, color=color, transform=ax.transAxes)
+st.pyplot(plt)
+
+
+
+# 네트워크 중심성 계산
+degree_centrality = nx.degree_centrality(G)
+betweenness_centrality = nx.betweenness_centrality(G)
+closeness_centrality = nx.closeness_centrality(G)
+eigenvector_centrality = nx.eigenvector_centrality(G)
+
+# Find the top 3 members for each centrality measure
+def get_top_3_with_party(centrality):
+    top_3 = sorted(centrality.items(), key=lambda x: x[1], reverse=True)[:3]
+    return [(member, value, member_party.get(member, '무소속')) for member, value in top_3]
+
+top_3_degree_centrality = get_top_3_with_party(degree_centrality)
+top_3_betweenness_centrality = get_top_3_with_party(betweenness_centrality)
+top_3_closeness_centrality = get_top_3_with_party(closeness_centrality)
+top_3_eigenvector_centrality = get_top_3_with_party(eigenvector_centrality)
+
+# Display metrics and members in Streamlit
+st.write("Top 3 Degree Centrality:")
+for member, value, party in top_3_degree_centrality:
+    st.write(f"{member} ({party}): {value}")
+
+st.write("Top 3 Betweenness Centrality:")
+for member, value, party in top_3_betweenness_centrality:
+    st.write(f"{member} ({party}): {value}")
+
+st.write("Top 3 Closeness Centrality:")
+for member, value, party in top_3_closeness_centrality:
+    st.write(f"{member} ({party}): {value}")
+
+st.write("Top 3 Eigenvector Centrality:")
+for member, value, party in top_3_eigenvector_centrality:
+    st.write(f"{member} ({party}): {value}")
+
+
 st.write("")
 
 st.write('### 3️⃣ 언론보도 분석')
